@@ -50,3 +50,4 @@ out/
 # --- MISCELÁNEOS ---
 # Si usas el comando 'vercel env pull' se genera este archivo temporal
 .env.*.local
+.env*.local

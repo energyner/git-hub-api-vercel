@@ -1,13 +1,17 @@
-/**
- * api/config/apikey.mjs
- * Archivo de configuración para la API Key de Google Translate
- */
-
-// Sustituye el valor entre comillas por tu clave real de Google Cloud Console
+/*Archivo apikey.mjs */
 import dotenv from 'dotenv';
-// Cargamos el archivo local por si acaso, pero priorizamos el entorno real
-dotenv.config({ path: '.env.local' });
+import path from 'path';
 
-// 1. Intenta leer de la variable de entorno (para el futuro)
-// 2. Si no existe, usa la clave temporal de prueba
-export const apiKey = process.env.GOOGLE_TRANSLATE_KEY || "AIzaSyBoK9X52A-SDenOoMRU28PeqYRETWKLL94";
+// Configuramos dotenv para leer .env.local de forma robusta
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+
+/**
+ * Prioriza la variable inyectada por Vercel.
+ * Nota: Vercel la descargó como 'apiKey', pero si en el futuro la renombras 
+ * en el panel a 'GOOGLE_TRANSLATE_KEY', el código seguirá funcionando.
+ */
+export const apiKey = process.env.apiKey || process.env.GOOGLE_TRANSLATE_KEY;
+
+if (!apiKey) {
+    console.warn("⚠️ Advertencia: No se encontró la API Key en las variables de entorno.");
+}
