@@ -2,6 +2,11 @@
   "version": 2,
   "name": "git-hub-api-vercel",
   "cleanUrls": true,
+  "functions": {
+    "api/*.mjs": {
+      "runtime": "@vercel/node"
+    }
+  },
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/_common/(.*)", "dest": "/_common/$1" },
