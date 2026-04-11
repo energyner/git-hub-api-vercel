@@ -1,0 +1,28 @@
+{
+  "name": "git-hub-api-vercel",
+  "version": "1.0.0",
+  "description": "Suite de Ingeniería Multi-API con soporte PWA y Vercel Postgres",
+  "main": "api/server/serv-energy-consump-app.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node api/serv-energy-consump-app.mjs",
+    "dev": "vercel dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pwa",
+    "engineering-tools",
+    "vercel-functions",
+    "google-translate-api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/postgres": "^0.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^4.18.2",
+    "mysql2": "^3.9.0",
+    "node-fetch": "^3.3.2"
+  }
+}

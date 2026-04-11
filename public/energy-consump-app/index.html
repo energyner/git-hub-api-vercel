@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="icon" href="../assets/img/favicom.jpg" type="image/png">
+     <link rel="stylesheet" href="../assets/css/main1.css" />
+    <link rel="stylesheet" href="../assets/css/main11.css" /> 
+    <link rel="stylesheet" href="../assets/css/idioms.css">  
+    <link rel="stylesheet" href="../assets/css/energy-consump.css">
+     <!--LINKS Y SCRIPTS PARA CONVDERTIR LA APICACION EN APPs-->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Git-Api-Energyner">
+     
+    <!--FIN DE LOS LINKS Y SCRIPTS PARA CONVERTIR LA APICACION EN UNA APPs-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+<meta name="description" content="Calculadora profesional de consumo y eficiencia en 
+motores eléctricos monofásicos y trifásicos mediante parámetros de voltaje y amperaje.">
+<meta name="keywords" content="electrical consumption calculation, motor efficiency, 
+single-phase motor, three-phase motor, electrical work, power factor, 
+electrical parameter measurement, wattmeter, energy engineering, 
+energy saving, industrial maintenance, motor consumption, 
+operating parameters, real power calculation">
+<!--meta property="og:title, description, image" definen propiedades que se mostrará cuando alguien comparta el enlace de tu aplicación, convirtiendo una simple URL en una "tarjeta enriquecida" (Rich Card)-->
+<meta property="og:title" content="Energyner - Cálculo de Consumo de Motores">
+<meta property="og:description" content="Calcula el trabajo eléctrico real y eficiencia de tus motores sin conocer la placa técnica.">
+<meta property="og:image" content="../assets/img/energy-icon.png">
+
+<title>energy-consumption - API</title>
+ <meta name="robots" content="index">
+<meta name="author" content="René F. Ruano">
+<link rel="canonical" href="https://energy-consumption-app/index.html">
+</head>
+<body>
+ <div id="idioms-container"></div> <!--Translator API container-->
+<nav id="lms-main-menu-container"></nav> <!--Main LMS menu-->  
+<header>
+<div class="logo"><img src="../assets/img/loggo.png" alt="Energyner"></div> 
+<h3> Electric Consumption Calculator for Single-Phase and Three-Phase Motors </h3>
+<h3>The scripts for these exercises can be found in Book 7 "Programming Step-by-Step and More Serie"</h3>
+<h3>Books 1 through 7 are available for purchase on Amazon.</h3>
+</header>
+<!--2 Divisiones responsives-->
+<div class="wrapper">
+  <div class="column"> <!-- First division -->
+    <h3 class="subcapitulo1">API - Form - Electric Consumption Calculator for Single-Phase and Three-Phase Electric Motors</h3>
+    <h3>The electrical work performed by an induction motor - Calculator. Processor Structure</h3>
+   
+<form action ="./index.html" method="post"  >
+<table class="energy-consump">
+    <tr class="row-header">
+        <td colspan="2">
+            <span class="PolitEscHeram"><strong>Electric Induction Motors</strong></span>
+        </td>
+    </tr>
+    
+    <tr class="row-neutral"> 
+        <td><strong>Parameter/ units</strong></td> 
+        <td><strong>Value</strong></td> 
+    </tr>
+    
+    <tr class="row-neutral">
+        <td colspan="2">
+        <strong>Form with two options:</strong><br />
+            a) Calculator for hourly energy consumption<br />
+            b) By entering the installed power
+        </td>
+    </tr>
+    
+    <tr class="row-section-a-title">
+        <tr class="row-neutral">
+            <td colspan="2">Calculate the hourly energy consumed (kWh)</td>
+        </tr>
+    <tr class="row-section-a">
+       <td>Motor, single or three-phase</td> 
+        <td class="cell-center"> 
+            <select name='stream' size="1"> 
+            <option selected="selected">Make u selection</option> 
+            <option value="1">single-phase</option> 
+            <option value="2">three-phase</option> 
+            </select> 
+        </td>
+    </tr>
+    <tr class="row-section-a"> 
+        <td>Electrical voltage ,volt</td> 
+        <td class="cell-center"><input type="text" name='tension' value="0" /></td> 
+    </tr> 
+    <tr class="row-section-a"> 
+        <td>Intensity, amp</td> 
+        <td class="cell-center"><input type="text" name='intensity' value="0" /></td> 
+    </tr>
+    <tr class="row-section-a"> 
+        <td>Power factor, cos f</td> 
+        <td class="cell-center"><input type="text" name='cosf' value="0" /></td> 
+    </tr> 
+    <tr class="row-section-a"> 
+        <td>Motor efficiency, (efm), both for one</td> 
+        <td class="cell-center"><input type="text" name='efm' value="0" /></td> 
+    </tr>
+    
+   <tr class="row-section-b-title"> 
+        <td colspan="2">Or enter the installed power</td> 
+    </tr> 
+    <tr class="row-section-b"> 
+        <td>Nominal power, kWe_real</td> 
+        <td class="cell-center"><input type="text" name='potnom' value="0" /></td> 
+    </tr> 
+    <tr class="row-section-b"> 
+        <td>Motor efficiency, (efm), both for one</td> 
+        <td class="cell-center"><input type="text" name='efm1' value="0" /></td> 
+    </tr>
+    
+    <tr class="row-neutral"> 
+        <td class="cell-center">Rectify your data</td> 
+        <td class="cell-center"><input name="reset" type="reset" value="delete" /></td> 
+    </tr> 
+    <tr class="row-footer"> 
+        <td><strong>CALCULATE</strong></td> 
+        <td class="cell-center"><input name="submit" type="submit" class="btn-submit" value="submit" /></td> 
+    </tr>
+</table>
+</form>
+
+
+  <p>Output Panel. Processor results: energy and CO2 per hour</p>
+  <p>The electrical work performed by an induction motor.
+
+<table class="energy-consump output-panel" id="panel-resultados">
+    <tr class="row-footer">
+        <td colspan="2"><strong>RESULTS PANEL – ENERGY ANALYSIS</strong></td>
+    </tr>
+    
+    <tr class="row-section-a-title">
+        <td colspan="2"><strong>Electric Motor Performance</strong></td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Energy at the terminals (kWe)</td>
+        <td><span id="res_kWh_motor">0.00</span> kWh</td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Energy at the motor shaft (Mechanical)</td>
+        <td><span id="res_kWh_eje" class="highlight-energy">0.00</span> kWh</td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Internal Motor Losses (Heat)</td>
+        <td><span id="res_perdidas_motor" style="color: #e74c3c;">0.00</span> kWh</td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Applied Efficiency (efm)</td>
+        <td><span id="res_eficiencia_usada">0.00</span> (0-1)</td>
+    </tr>
+
+    <tr class="row-section-b-title">
+        <td colspan="2"><strong>Primary Energy Chain (Fossil Equivalent)</strong></td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Total Primary Energy Equivalent</td>
+        <td><span id="res_kWh_primario">0.00</span> kWh</td>
+    </tr>
+    <tr class="row-neutral">
+        <td>System Transformation Losses</td>
+        <td><span id="res_kWh_transf">0.00</span> kWh</td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Transmission Efficiency</td>
+        <td><span id="res_perdidas_transf_pct">0.00</span> %</td>
+    </tr>
+
+    <tr class="row-section-a-title">
+        <td colspan="2"><strong>Environmental Impact (CO2)</strong></td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Primary Source Emissions</td>
+        <td><span id="res_kgCO2_primario" class="highlight-co2">0.00</span> kg/h</td>
+    </tr>
+    <tr class="row-neutral">
+        <td>Emissions attributed to Shaft Power</td>
+        <td><span id="res_kgCO2_eje">0.00</span> kg/h</td>
+    </tr>
+
+    <tr class="row-footer">
+        <td><strong>Overall System Efficiency</strong></td>
+        <td><strong><span id="res_pct_final">0.00</span> %</strong></td>
+    </tr>
+</table>
+</div><!--First division End-->
+
+<div class="column"> <!-- Second division -->
+<section class="api-description" >
+    
+    <h3 class="subcapitulo1">Technical Overview: Energy-Consump API</h3>
+    
+    <p style="line-height: 1.6;">
+        The <strong>Energy-Consump API</strong> is a high-precision microservice designed to quantify the electrical performance and environmental footprint of induction motors. By analyzing fundamental electrical parameters—<strong>Voltage (V)</strong>, <strong>Intensity (I)</strong>, and the <strong>Power Factor (cos φ)</strong>—the API determines the active power developed by a motor.
+    </p>
+
+    <h3 style="color: #2980b9;">Mathematical Scope</h3>
+    <p style="line-height: 1.6;">
+        The system dynamically adapts its calculations based on the motor's phase configuration, employing the following physical principles:
+    </p>
+    <ul style="line-height: 1.6;">
+        <li><strong>Single-phase Systems:</strong> P = (V × I × cos φ) / 1000</li>
+        <li><strong>Three-phase Systems:</strong> P = (√3 × V × I × cos φ) / 1000</li>
+    </ul>
+    <p style="line-height: 1.6; font-style: italic; background: #f9f9f9; padding: 10px; border-left: 4px solid #3498db;">
+        Beyond terminal power, the API evaluates the entire energy chain, from primary fossil fuel equivalence to mechanical work at the shaft, providing a comprehensive "well-to-wheel" energy audit.
+    </p>
+
+    <h3 style="color: #2980b9;">Social Utility & Economic Empowerment</h3>
+    <p style="line-height: 1.6;">
+        In an era of rising energy costs, this API serves as a vital tool for <strong>Self-Directed Learning</strong> and operational transparency. Its social utility lies in:
+    </p>
+    <ul style="line-height: 1.6;">
+        <li><strong>Cost Democratization:</strong> Allowing small-scale industries and individual users to perform energy audits previously reserved for expensive specialized consultancy.</li>
+        <li><strong>Educational Impact:</strong> Serving as a bridge for technicians to understand the relationship between electrical consumption and mechanical efficiency.</li>
+        <li><strong>Resource Management:</strong> Helping users optimize energy use, leading to direct savings in utility bills.</li>
+    </ul>
+
+    <h3 style="color: #2980b9;">Environmental Impact & Global Sustainability</h3>
+    <p style="line-height: 1.6;">
+        Built with a <strong>Sustainability-First</strong> philosophy, the tool provides:
+    </p>
+    <ul style="line-height: 1.6;">
+        <li><strong>Carbon Footprint Awareness:</strong> It converts abstract kilowatt-hours into tangible kg/h of CO2, making the environmental cost of inefficiency visible.</li>
+        <li><strong>Mitigation through Efficiency:</strong> Encouraging the adoption of high-efficiency motors (IE3/IE4 standards) to reduce greenhouse gas emissions.</li>
+        <li><strong>Support for Energy Transition:</strong> Identifying systems where fossil-fuel-based electricity can be replaced by cleaner alternatives.</li>
+    </ul>
+
+</section>
+</div> <!--Second division End-->
+<!--DIVISION HTML PARA EL LINK-->
+<div id="install-section" style="display:none;">
+    <a href="javascript:void(0)" id="install-button" class="btn-app">
+        Install App - APIs-Energyner
+    </a>
+</div>
+<!--FIN DE LA DIVISION HTML PARA EL LINK-->
+
+</div><!--Wrapper End-->
+<script type="module" src="../assets/js/api-app.js"></script>
+
+<footer id="footer"></footer>    
+<nav id="nav2"></nav> <!--Social media menu-->
+
+    <script src="../assets/js/menu_hamburger.js"></script>
+    <script src="../assets/js/load_all_home.js"></script>
+    <script src="../assets/js/translator.js"></script>     
+<script src="../assets/js/energy-consump.js"  >/* incluye paginas exteriores*/</script>  
+
+
+</body>
+</html>

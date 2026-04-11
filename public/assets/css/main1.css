@@ -1,0 +1,747 @@
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+   
+}
+p{
+    font-size: 15px;
+}
+/*Estilo etiqueta h4 class metodos */
+.h-metodos {
+    text-align: center; /* Centra el texto horizontalmente */
+    background-color: rgb(26, 35, 126, 0.8);
+    font-size: 24px;
+    font-weight: 600;
+    color:white;
+    width: 60%;
+}
+.div-metodos {
+    display: grid;
+    place-items: center;
+}
+
+/* Estilos de las imágenes */
+.img-head {
+    width: 60%;
+    max-height: calc(60% * (4000 / 1700));
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+.img-training {
+    width: 40%;
+    max-height: calc(100% * (1280 / 1280));
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+.img-a {
+    width: 40%;
+    max-height: calc(40% * (350 / 350));
+    object-fit: cover;
+    margin: 0;
+}
+
+.img-b {
+    width: 40%;
+    max-height: calc(40% * (350 / 350));
+    object-fit: cover;
+    margin: 0;
+}
+.img-c {
+    width: 40%;
+    max-height: calc(30% * (1000 / 1300));
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+.img-d {
+    width: 40%;
+    max-height: calc(100% * (1000 / 2500));
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+.img-e {
+    width: 40%;
+    max-height: calc(100% * (1000 / 1500));
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+
+.img-sga {
+    width:100%;
+    max-height: calc(100% * (2100 / 800));
+    object-fit: cover;
+    margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
+.img-lib-port {
+    width: 100%;
+    max-height: calc(100% * (500 /500));
+    object-fit: cover;
+    margin: 0;
+}
+.img-lib-contraport {
+    width: 100%;
+    max-height: calc(100% * (500 /500));
+    object-fit: cover;
+    margin: 0;
+}
+
+.img-vsc {
+    width:100%;
+    max-height: calc(100% * (1000 / 1600));
+    object-fit: cover;
+    margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+.img-css {
+    width:100%;
+    max-height: calc(100% * (1000 /1400));
+    object-fit: cover;
+    margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
+.img-con {
+    width: 100%;
+    max-height: calc(60% * (400 /230));
+    object-fit: cover;
+    margin: 0;
+}
+
+.img-local{
+    width: 100%;
+    max-height: calc(100% * (500 /400));
+    object-fit: cover;
+    margin: 0;
+}
+
+.img-qr {
+    width: 60%;
+    max-height: calc(60% * (600 /350));
+    object-fit: cover;
+    margin: 0;
+}
+.img-wamp {
+    width: 100%;
+    max-height: calc(100% * (500 /600));
+    object-fit: cover;
+    margin: 0;
+}
+.img-online{
+    width: 100%;
+    max-height: calc(100% * (500 /500));
+    object-fit: cover;
+    margin: 0;
+}
+.img-books {
+    width: 100%;
+    max-height: calc(100% * (250 /250));
+    object-fit: cover;
+    margin: 0;
+
+}
+/* Estilos del encabezado */
+header {
+    background-color: #faf8f8;
+    color: #f56a6a;
+    text-align: center;
+    padding: 20px 0;
+}
+/* Estilos para el contenedor del encabezado */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8; /* Color de fondo del encabezado */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para el encabezado */
+    text-align: center;
+}
+
+/* Estilos para el logo */
+ .logo {
+    display: flex;
+    justify-content: center;   /* Centra horizontalmente */
+    align-items: center;       /* Centra verticalmente dentro del contenedor */
+    font-size: 24px;
+    font-weight: 300;
+    margin-left: 0;            /* Quita el empuje hacia la derecha */
+    top: 20px;
+}
+
+.logo img {
+    max-height: 120px;
+    width: auto;
+}
+/* Estilos para la division class primerscript     */
+
+.rectangulo {
+    border: 2px solid black; /* Define el borde de la div con líneas negras de 2px */
+    background-color: rgba(251, 235, 189); /* Define el color de fondo utilizando RGBA */
+    padding: 10px; /* Añade un espacio de relleno dentro del borde */
+
+}
+
+/* Estilos para el menú desplegable redes sociales */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn img {
+    width: 25px; /* Establece el ancho deseado */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a img {
+    width: 22px;
+    height: 22px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #ddd;
+}
+
+
+/* Estilos del menú de navegación - lo saco fuera de operación y deja la franja como estetica*/
+/*
+nav {
+    background-color: rgb(245, 106, 106);
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+/*
+/* Estilos para el menu de navegacion en la pagina entrenamiento */
+
+
+
+
+
+/* Estilos del formulario de registro/acceso */
+.registro-acceso {
+    text-align: left;
+    padding: 10px;
+    display: flex;
+    justify-content:flex-end;
+}
+
+.registro-acceso input[type="text"],
+.registro-acceso input[type="password"],
+.registro-acceso input[type="submit"] {
+    padding: 5px;
+    margin: 5px;
+    width: 100%;
+    display: block;
+}
+
+/* Estilos botón submit */
+input[type="submit"] {
+    background-color: rgb(245, 106, 106);
+    color:white;
+    padding: 10px 20px;
+    border-color: #ffffff;
+    cursor: pointer;
+}
+
+/* Estilos de las dos columnas centrales responsives */
+.contenedor {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.columna-izquierda {
+    flex: 1; /* Ocupa la mitad del ancho */
+    padding: 20px;
+    background-color:rgb(251, 215, 215) ;
+ }
+
+.columna-derecha {
+    flex: 1; /* Ocupa la mitad del ancho */
+    background-color: #fff; /* Color de fondo opcional */
+    padding: 20px; /* Añadido para espacio interior */
+}
+
+
+
+/* Estilos de las secciones de publicidad */
+.publicidad {
+    text-align: center;
+    padding: 20px;
+}
+
+/*Estilos de 3 Divisiones responsives*/
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas se ajusten al ancho de la pantalla */
+}
+
+.column {
+    flex: 0 0 33.33%; /* Cada columna ocupa un tercio del ancho */
+    max-width: 33.33%; /* Se establece un ancho máximo para evitar que las columnas se expandan demasiado en pantallas grandes */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+    padding: 20px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde para visualización */
+    text-align: center; /* Centra el contenido */
+}
+.grid-bloque {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    background-color: #fff;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 14px;
+    text-align: left;
+  }
+footer {
+    background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+    color: #fff; /* Color del texto del footer */
+    text-align: center; /* Centra el texto del footer */
+    padding: 20px 0; /* Espacio interno del footer */
+    font-size: 14px;
+}
+
+/*<!--ESTILOS APLICADOS AL CONTENEDOR DE REDES SOCIALES-->*/
+
+/* Contenedor blindado */
+#lms-social-icons {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background-color: rgb(26, 35, 126, 0.8);
+    justify-content: center;  /* Azul */
+    border-radius: 2px;
+}
+
+/* Estilos internos encapsulados */
+#lms-social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eaeaf2; /* Azul */
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+#lms-social-icons a:hover {
+    background-color: #ffd700; /* Amarillo */
+}
+
+#lms-social-icons i {
+    font-size: 22px;
+    color: rgb(186, 151, 252);
+    transition: color 0.2s ease;
+}
+
+#lms-social-icons a:hover i {
+    color: #000; /* Negro para contraste en amarillo */
+}
+
+
+/* Media query para hacer el diseño responsive */
+
+/* Móviles (pantallas de 480px o menos) */
+@media (max-width: 380px) {
+    .grid-bloque {
+        grid-template-columns: 100%; /* 1 columna */
+    }
+  
+    .grid-item {
+        padding: 10px; /* Reduce el padding para dispositivos pequeños */
+        font-size: 12px; /* Reduce el tamaño de la fuente */
+    }
+  
+    p {
+        font-size: 13px; /* Ajusta el tamaño de la fuente del párrafo también */
+    }
+  }
+
+@media screen and (max-width: 576px) {
+    footer {
+        background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+        color: #fff; /* Color del texto del footer */
+        text-align: center; /* Centra el texto del footer */
+        padding: 20px 0; /* Espacio interno del footer */
+        font-size: 12px;
+
+    }
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+    footer {
+        background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+        color: #fff; /* Color del texto del footer */
+        text-align: center; /* Centra el texto del footer */
+        padding: 20px 0; /* Espacio interno del footer */
+        font-size: 12px;
+
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .contenedor {
+        flex-direction: column; /* En pantallas pequeñas, las columnas se apilan */
+    }
+    footer {
+        background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+        color: #fff; /* Color del texto del footer */
+        text-align: center; /* Centra el texto del footer */
+        padding: 20px 0; /* Espacio interno del footer */
+        font-size: 12px;
+
+    }
+    .column {
+        flex: 0 0 100%; /* En pantallas más pequeñas, cada columna ocupa el 100% del ancho */
+        max-width: 100%; /* Ancho máximo del 100% */
+    }
+
+}
+
+/*Estilo para las tablas */
+
+/* bloque for the columns */
+.bloque-table {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Column settings */
+.column-table {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+/* Responsive table styles */
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+    border: 1px solid #ddd;
+    padding: 2px;
+    text-align: left;
+}
+
+.responsive-table th {
+    background-color: #f2f2f2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .column-table {
+        flex: 0 0 100%;
+    }
+    .h-metodos {
+        text-align: center; /* Centra el texto horizontalmente */
+        background-color: rgb(26, 35, 126, 0.8);
+        font-size: 14px;
+        font-weight: 300;
+        color:white;
+        width: 80%;
+    }
+    .div-metodos {
+        display: grid;
+        place-items: center;
+    }
+    .img-head {
+        width: 80%;
+        max-height: calc(100% * (1280 / 1280));
+        object-fit: cover;
+        margin: 0;
+        padding: 0;
+    }
+    .img-training {
+        width: 80%;
+        max-height: calc(100% * (1280 / 1280));
+        object-fit: cover;
+        margin: 0;
+        padding: 0;
+    }
+    .img-lib-port {
+        width: 60%;
+        max-height: calc(100% * (500 /500));
+        object-fit: cover;
+        margin: 0;
+    }
+    .img-lib-contraport {
+        width: 60%;
+        max-height: calc(100% * (500 /500));
+        object-fit: cover;
+        margin: 0;
+    }
+    .img-vsc {
+        width:60%;
+        max-height: calc(100% * (1000 / 1600));
+        object-fit: cover;
+        margin: 0 auto; /* Centra la imagen horizontalmente */
+    }
+    .img-css {
+        width:60%;
+        max-height: calc(100% * (1000 /1400));
+        object-fit: cover;
+        margin: 0 auto; /* Centra la imagen horizontalmente */
+    }
+    
+    .img-con {
+        width: 60%;
+        max-height: calc(100% * (400 /230));
+        object-fit: cover;
+        margin: 0;
+    }
+    .img-a {
+        width: 40%;
+        max-height: calc(40% * (350 / 350));
+        object-fit: cover;
+        margin: 0;
+    }
+    
+    .img-b {
+        width: 40%;
+        max-height: calc(40% * (350 / 350));
+        object-fit: cover;
+        margin: 0;
+    }
+    
+    .img-c {
+        width: 50%;
+        max-height: calc(100% * (1000 / 1500));
+        object-fit: cover;
+        margin: 0;
+        padding: 0;
+    }
+    .img-d {
+        width: 60%;
+        max-height: calc(100% * (1000 / 2500));
+        object-fit: cover;
+        margin: 0;
+        padding: 0;
+    }
+    .img-e {
+        width: 50%;
+        max-height: calc(100% * (1000 / 1500));
+        object-fit: cover;
+        margin: 0;
+        padding: 0;
+    }
+    .img-local{
+        width: 60%;
+        max-height: calc(100% * (500 /400));
+        object-fit: cover;
+        margin: 0;
+    }
+    
+    .img-qr {
+        width: 60%;
+        max-height: calc(60% * (600 /350));
+        object-fit: cover;
+        margin: 0;
+    }
+    .img-wamp {
+        width: 50%;
+        max-height: calc(100% * (500 /600));
+        object-fit: cover;
+        margin: 0;
+    }
+    .img-online{
+        width: 60%;
+        max-height: calc(100% * (500 /500));
+        object-fit: cover;
+        margin: 0;
+    }
+    .grid-bloque {
+        grid-template-columns: 50% 50%; /* 2 columnas */
+    }
+  }
+  @media (min-width: 992px) and (max-width: 1199.98px) { 
+    footer {
+        background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+        color: #fff; /* Color del texto del footer */
+        text-align: center; /* Centra el texto del footer */
+        padding: 20px 0; /* Espacio interno del footer */
+        font-size: 12px;
+    }
+    .link-continer-entrenamiento {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto; /* Centra el contenedor horizontalmente */
+       position: relative;
+    }
+    .link-item-entrenamiento {
+        display: block;
+        width: calc(100% - 20px); /* Ajusta el ancho para el padding de 10px a cada lado */
+        margin: 5px 0; /* Espaciado de 2px entre enlaces */
+        padding: 10px;/* Ajustado para mayor altura de los enlaces */
+        background-color: hsl(164, 89%, 22%);
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+        position: relative; /* Añadido para asegurar que z-index funcione
+        correctamente */
+        z-index:6;
+    }
+}
+
+ /* Estilo para la class maindos que se aplica en las paginas de la carpeta 01-estilos */
+ .maindos {
+    flex: 1;
+    min-width: 60%;
+    padding: 1em;
+    background-color: #f4f4f4;
+    text-align: center;
+    color:red;
+}
+/*estilos para los encabezamientos de los textos y para el contenido de la funcionalidades*/
+
+  .titulo1 {
+    color:crimson; 
+    font: size 12px; 
+    font-weight:300;
+  }
+  .funcionalidad {
+    border: 2px solid black; 
+    background-color: #f2f2f2; 
+    padding: 0,0,5px,5px;
+  }
+
+  /*Estilo para las div bloque*/
+  .bloque-z {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        }
+
+        .box-z-1 {
+            background-color: red;
+            top: 20px;
+            left: 20px;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            z-index: 2;
+        }
+
+        .box-z-2 {
+            background-color: rgb(0, 128, 0);
+            top: 80px;
+            left: 80px;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            z-index: 4;
+        }
+
+        .box-z-3 {
+            background-color: rgb(0, 0, 255);
+            top: 20px;
+            left: 100px;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            z-index: 3;
+        }
+
+        .link-container-entrenamiento {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    position: relative; /* Añadido para asegurar que z-index funcione correctamente */
+}
+
+.link-item-entrenamiento {
+    display: block;
+    width: calc(100% - 20px); /* Ajusta el ancho para el padding de 10px a cada lado */
+    margin: 5px 0; /* Espaciado de 2px entre enlaces */
+    padding: 10px;/* Limitando la altura del contenedor a 5px entre enlaces */
+    background-color: hsl(164, 89%, 22%);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    position: relative; /* Añadido para asegurar que z-index funcione
+    correctamente */
+    z-index:6;
+}
+
+.link-item-entrenamiento:hover {
+    background-color: orange;
+}
+
+

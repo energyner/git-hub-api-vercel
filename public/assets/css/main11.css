@@ -1,0 +1,343 @@
+/* =======================================
+   Archivo main11.css - LMS MAIN MENU
+======================================= */
+/**AJUSTES EN LOS SELECTORES DEL ANCHO Y ALTO DEL MENU
+SELECTORES A AJUSTAR
+===ALTURA===
+a) #lms-main-menu-container .menu-bg - Ejemplo
+height:auto;
+min-height:260px;
+padding-bottom:20px;
+ESPACIOS ENTRE FILAS DE LINKS
+b) #lms-main-menu-container #nav li a{ - Ejemplo
+padding:8px 12px;
+line-height:1.3;
+===ANCHO===
+a) #lms-main-menu-container #menu-bar
+width:max-content;
+min-width:220px;
+max-width:260px;
+b) #lms-main-menu-container .menu-bg
+width:max-content;
+min-width:220px;
+max-width:260px;
+===evitar que el texto fuerce demasiado ancho===
+c) #lms-main-menu-container #nav li a{
+padding:8px 14px;
+white-space:nowrap;
+}
+====CONTROL OPACIDAD DEL MENU===
+a) #lms-main-menu-container .menu-bg.open
+*/
+
+/* CONTENEDOR PRINCIPAL */
+/*  LA POSICION DEL CONTENEDOR PRINCIPAL EN LA PAGINA WEB DONDE SE INYECTA EN EL MENU
+ES DEBAJO Y SEGUIDO DE LA ETIQUETA BODY EN EL HTML DE LA PAGINA WEB
+<body>
+    <nav id="lms-main-menu-container"> </nav>     <!--Menu lms-main-menu-->
+*/
+
+#lms-main-menu-container{
+position:relative;
+z-index:1000;
+}
+
+
+/* MENU BAR */
+
+#lms-main-menu-container #menu-bar{
+position:absolute;
+top:0;
+left:0;
+width:max-content;
+min-width:220px;
+max-width:260px;
+z-index:2;
+}
+
+
+/* BOTON HAMBURGUESA */
+
+#lms-main-menu-container #menu{
+width:35px;
+height:30px;
+margin:20px 0 10px 10px;
+cursor:pointer;
+background-color:rgba(191,191,249,0.1);
+border-radius:5px;
+}
+
+
+/* BARRAS */
+
+#lms-main-menu-container .bar{
+height:5px;
+width:100%;
+background-color:rgb(241,15,15);
+display:block;
+border-radius:5px;
+transition:0.3s ease;
+}
+
+
+/* POSICION BARRAS */
+
+#lms-main-menu-container #bar1{
+transform:translateY(-4px);
+}
+
+#lms-main-menu-container #bar3{
+transform:translateY(4px);
+}
+
+
+/* MENU */
+
+#lms-main-menu-container #nav{
+display:none;
+padding:10px 10px 20px 10px;
+margin:0;
+}
+
+
+/* MENU ABIERTO */
+
+#lms-main-menu-container #nav.open{
+display:block;
+}
+
+
+/* LINKS */
+
+#lms-main-menu-container #nav li{
+list-style:none;
+}
+
+#lms-main-menu-container #nav li a{
+color:#fff;
+text-decoration:none;
+font-size:12px;
+font-weight:600;
+display:block;
+/* AUMENTAMOS ALTURA DEL LINK */
+padding:6px 10px;
+line-height:1.2;
+white-space:nowrap;
+}
+
+
+/* HOVER */
+
+#lms-main-menu-container #nav li a:hover{
+background:#ffd700;
+}
+
+
+/* BACKGROUND */
+
+#lms-main-menu-container .menu-bg{
+position:fixed;
+top:0;
+left:0;
+width:max-content;
+min-width:220px;
+max-width:260px;
+
+/* CAMBIO CLAVE */
+
+height:auto;
+min-height:280px;
+padding-bottom:20px;
+
+background:#1a237e;
+display:none;
+z-index:1;
+padding-bottom:10px;
+}
+
+
+/* BACKGROUND ABIERTO */
+
+#lms-main-menu-container .menu-bg.open{
+display:block;
+background:rgba(0, 0, 0, 0.4);
+}
+
+
+/* ANIMACION HAMBURGUESA */
+
+#lms-main-menu-container .change #bar1{
+transform:translateY(4px) rotate(-45deg);
+}
+
+#lms-main-menu-container .change #bar3{
+transform:translateY(-6px) rotate(45deg);
+}
+
+#lms-main-menu-container .change #bar2{
+opacity:0;
+}
+
+/*===========================================
+MEDIAS QUERIES
+============================================= */
+/*Pantallas chicas menores a 380px */
+@media (max-width: 380px) {
+
+#lms-main-menu-container #nav li a{
+font-size:12px;
+padding:2px 4px;
+line-height:1.4;
+}
+
+#lms-main-menu-container #menu-bar,
+#lms-main-menu-container .menu-bg{
+
+width:85vw;
+max-width:260px;
+
+}
+
+#lms-main-menu-container #menu{
+
+width:40px;
+height:34px;
+margin:18px 0 12px 12px;
+
+}
+
+#lms-main-menu-container #nav{
+padding-top:10px;
+}
+
+#lms-main-menu-container .menu-bg{
+transition: all 0.3s ease;
+}
+}
+/*Pantallas menores a 576px */
+/* =======================================
+   MOBILE entre > 380px y hasta < 576px
+   ======================================= */
+
+@media (min-width:381px) and (max-width:576px){
+
+#lms-main-menu-container #menu-bar,
+#lms-main-menu-container .menu-bg{
+width:75vw;
+max-width:250px;
+min-width:200px;
+}
+
+#lms-main-menu-container #menu{
+width:40px;
+height:34px;
+margin:18px 0 12px 14px;
+}
+
+#lms-main-menu-container #nav{
+padding-top:10px;
+}
+
+#lms-main-menu-container #nav li a{
+font-size:12px;
+padding:2px 4px;
+line-height:1.4;
+}
+
+#lms-main-menu-container #nav li{
+margin-bottom:4px;
+}
+
+#lms-main-menu-container .menu-bg{
+padding-bottom:10px;
+}
+
+}
+
+/* =======================================
+   PANTALLAS entre >576px y <769px
+   ======================================= */
+
+@media (min-width:577px) and (max-width:768px){
+#lms-main-menu-container #menu-bar,
+#lms-main-menu-container .menu-bg{
+width:60vw;
+max-width:250px;
+min-width:220px;
+}
+/* botón hamburguesa */
+#lms-main-menu-container #menu{
+width:40px;
+height:36px;
+margin:18px 0 12px 16px;
+}
+/* contenedor del menú */
+#lms-main-menu-container #nav{
+padding-top:10px;
+}
+/* links */
+#lms-main-menu-container #nav li a{
+font-size:12px;
+padding:2px 4px;
+line-height:1.3;
+}
+/* separación */
+#lms-main-menu-container #nav li{
+margin-bottom:6px;
+}
+/* fondo */
+#lms-main-menu-container .menu-bg{
+padding-bottom:10px;
+transition: all 0.3s ease;
+}
+
+}
+
+/* =======================================
+   PANTALLAS entre >768px y <1200px
+   tablets y laptops pequeñas
+   ======================================= */
+
+@media (min-width:769px) and (max-width:1199px){
+
+#lms-main-menu-container #menu-bar,
+#lms-main-menu-container .menu-bg{
+width:45vw;
+max-width:240px;
+min-width:210px;
+}
+
+/* botón hamburguesa */
+
+#lms-main-menu-container #menu{
+width:40px;
+height:32px;
+margin:18px 0 12px 16px;
+}
+
+/* menú */
+
+#lms-main-menu-container #nav{
+padding-top:10px;
+}
+
+/* links */
+
+#lms-main-menu-container #nav li a{
+font-size:12px;
+padding:3px 5px;
+line-height:1.2;
+}
+
+/* separación */
+
+#lms-main-menu-container #nav li{
+margin-bottom:6px;
+}
+
+#lms-main-menu-container .menu-bg{
+padding-bottom:10px;
+transition: all 0.3s ease;
+}
+
+}

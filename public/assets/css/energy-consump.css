@@ -1,0 +1,236 @@
+/*energy-consump.css*/
+/* Variables para mantener la identidad visual del Hub */
+   * { /* selector universal */
+    box-sizing: border-box;
+   }
+     
+/*Estilos de 3 Divisiones responsives*/
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas se ajusten al ancho de la pantalla */
+    justify-content: flex-start; /* Alinea el inicio de las columnas a la izquierda */
+    margin-left: 10px; /* Separa el borde del contenedor 10px*/
+}
+
+.column {
+    flex: 0 0 49.9%; /* Cada columna ocupa la mitad del ancho */
+    max-width: 49%; /* Se establece un ancho m谩ximo para evitar que las columnas se expandan demasiado en pantallas grandes */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+    padding: 20px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde para visualizaci贸n */
+    text-align: left; /* Centra el contenido */
+    display: flex; /* Ayuda a controlar la alineación interna */
+    flex-direction: column;
+    align-items: flex-start; /* Fuerza contenido inyectado a la izquierda */
+}
+
+
+/*estilos para los encabezamientos de los textos*/
+.subcapitulo1{
+  border: 1px solid black; 
+  border-radius: 0px;
+  background-color: #f0e9fd;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Sombra ligera */
+  padding: 10px; 
+  color:black; 
+  text-align: left; 
+}
+.subcapitulo2{
+  border: 1px solid black; 
+  background-color: #faf2fd;
+  padding: 10px; 
+  color:black; 
+  text-align: left; 
+  font-size:  14px; 
+  font-weight:bold;
+}
+.subcapitulo3{
+  border: 1px solid black; 
+  background-color: #faf2fd;
+  padding: 0px; 
+  color:black; 
+  text-align: left; 
+  font-size:  12px; 
+  font-weight:bold;
+}
+.articulo1 {
+  color:rgb(2, 0, 0); 
+  border: 2px solid crimson;
+  font-size:  14px; 
+  font-weight:300;
+}
+
+p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    line-height: 1.5; /* Sugerencia: mejora la lectura en móviles */
+}
+
+/*Estilos Tabla Formulario*/
+/* Estilo para la tabla principal del Hub */
+/* --- Estructura Principal de la Tabla --- */
+.energy-consump {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 380px;
+    margin: 20px 20px 20px 20px; /* Separación de 10px a la izquierda */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+}
+
+.energy-consump td {
+    padding: 5px;
+    border: 1px solid rgba(0,0,0,0.08); /* Bordes suaves para no ensuciar el diseño */
+    color: #333;
+}
+
+/* --- Selectores de Fila por Sección (Colores Originales) --- */
+
+/* Encabezado Principal */
+.row-header {
+    background-color: #C6D8FF;
+    text-align: center;
+}
+
+/* Filas de Información Neutral y Títulos de Columna */
+.row-neutral {
+    background-color: #FBFEFF;
+    text-align: center;
+}
+
+/* Sección A: Energía Horaria */
+.row-section-a-title, 
+.row-section-a {
+    background-color: #E8FAFF;
+}
+
+/* Sección B: Potencia Instalada */
+.row-section-b-title, 
+.row-section-b {
+    background-color: #C3D9FF;
+}
+
+/* Fila de Acción (Footer) */
+.row-footer {
+    background-color: #10208D;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* --- Elementos de Formulario (Inputs y Selects) --- */
+
+.energy-consump input[type="text"], 
+.energy-consump select {
+    width: 90%;
+    padding: 8px; /* Aumentado ligeramente para mejor uso táctil */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: center;
+    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+}
+
+/* Botón Enviar (CALCULAR) */
+.btn-enviar {
+    background-color: #ffffff;
+    color: #10208D;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease;
+}
+
+.btn-enviar:hover {
+    background-color: #E8FAFF;
+}
+
+/* Botón Borrar (Rectificar) */
+input[name="reset"] {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* --- Clases de Utilidad y Tipografía --- */
+
+.cell-center {
+    text-align: center;
+}
+
+.PolitEscHeram {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #10208D;
+}
+
+/* Asegurar que las negritas en el footer sean blancas */
+.row-footer strong {
+    color: #ffffff;
+}
+
+/*ESTILOS PARA EL BOTON DE INSTALACION DE LA APP EN CELULARES */
+#install-section {
+        margin: 15px auto !important;
+        text-align: center !important;
+        display: none; /* Para que el JS pueda mostrarlo */
+    }
+
+.btn-app {
+    display: inline-block;
+    padding: 14px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* Fondo oro brillante */
+    background: linear-gradient(135deg, #fff8dc, #E6B800, #fff8dc);
+
+    /* Borde luminoso */
+    border: 2px solid rgba(255, 215, 0, 0.8);
+
+    /* Sombra elegante */
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.btn-app:hover {
+    /* Más brillo al pasar el mouse */
+    background: linear-gradient(135deg, #FFE066, #FFD700, #F4C430);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.55);
+}
+
+.btn-app:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(255, 215, 0, 0.35);
+}
+
+/* --- MEDIA QUERY PARA MÓVILES (APILAMIENTO) --- */
+@media (max-width: 768px) {
+    .column {
+        flex: 0 0 100%; /* Ocupa todo el ancho disponible */
+        max-width: 100%; /* Fuerza a que no haya más de una por fila */
+        text-align: left; 
+        align-items: flex-start; /* Mantiene la lógica de izquierda */
+        border-bottom: 2px solid #eee; /* Opcional: separador visual entre bloques */
+    }
+    
+    .wrapper {
+        flex-direction: column; /* Refuerza el flujo vertical */
+    }
+
+    
+}

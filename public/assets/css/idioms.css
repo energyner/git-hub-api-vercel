@@ -1,0 +1,65 @@
+/*idioms.css 
+ESTILOS APLICADOS AL CONTENEDOR DE TRADUCCION DE IDIOMAS <div id="idioms-container"></div>
+CARGAR EN CADA HTML <link rel="stylesheet" href="/assets/css/idioms.css">
+
+*/
+/* ======================================================
+   LANGUAGE SELECTOR – LMS
+   Minimal fixed selector
+   ====================================================== */
+
+/* Contenedor principal */
+#idioms-container{
+    position: fixed;
+    top: 6px;
+   right: 6px;
+    z-index: 9999;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Selector */
+#languageSwitcher{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background: #1f1f1f;
+    color: #e5e5e5;
+
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+
+    padding: 3px 6px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    width: 44px;
+    height: 24px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+#languageSwitcher:hover{
+    background: #2a2a2a;
+    border-color: #555;
+}
+
+/* Focus */
+#languageSwitcher:focus{
+    outline: none;
+    border-color: #888;
+    background: #2a2a2a;
+}
+
+/* Opciones del selector */
+#languageSwitcher option{
+    background: #2a2a2a;
+    color: #f0f0f0;
+    font-weight: 600;
+}
