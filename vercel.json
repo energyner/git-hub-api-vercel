@@ -1,23 +1,14 @@
 {
   "version": 2,
   "name": "git-hub-api-vercel",
-  "cleanUrls": true,
+  "builds": [
+    { "src": "api/*.mjs", "use": "@vercel/node" },
+    { "src": "public/**/*", "use": "@vercel/static" }
+  ],
   "rewrites": [
-    {
-      "source": "/api/translate",
-      "destination": "/api/translate.mjs"
-    },
-    {
-      "source": "/api/energy-consump",
-      "destination": "/api/serv-energy-consump-app.mjs"
-    },
-    {
-      "source": "/energy-app/:path*",
-      "destination": "/energy-consump-app/:path*"
-    },
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/energy-consump-app/index.html"
-    }
+    { "source": "/api/translate", "destination": "/api/translate.mjs" },
+    { "source": "/api/energy-consump", "destination": "/api/serv-energy-consump-app.mjs" },
+    { "source": "/", "destination": "/energy-consump-app/index.html" },
+    { "source": "/((?!api/).*)", "destination": "/energy-consump-app/$1" }
   ]
 }
