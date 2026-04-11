@@ -48,6 +48,7 @@ if (isIos() && !inStandaloneMode()) {
     });
 }
 
-//Cargando el script mediante código. No se "ejecuta" como un script normal en el HTML.
- if ('serviceWorker' in navigator) { navigator.serviceWorker.register('../sw.js') .then(() => console.log('Service Worker Activo')) .catch(err => console.log('Error de SW:', err)); }
+//Cargando el script mediante código. No se "ejecuta" como un script normal en el HTML
+// Estableciendo la ruta desde la raiz /sw para evitar confucion.
+ if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js') .then(() => console.log('Service Worker Activo')) .catch(err => console.log('Error de SW:', err)); }
 //FIN DE LOS SCRIPTS MANIPULADORES-->
