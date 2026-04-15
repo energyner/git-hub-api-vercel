@@ -37,40 +37,24 @@ app.post('/api/energy-consump', (req, res) => {
  */
 app.post('/api/translate', translateHandler);
 
-// INICIO DEL SERVIDOR (Solo local)
+
+// INICIO DEL SERVIDOR (Local abre puerto 3002)
+// EN PRODUCCION 
 if (process.env.NODE_ENV !== 'production') {
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
-    console.log(`✅ Servidor escuchando en: https://localhost:${PORT}`);
+    console.log(`✅ Servidor escuchando en: http://localhost:${PORT}`);
     console.log(`✅ Entorno detectado: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🚀 Servidor listo en: https://localhost:${PORT}`);
+    console.log(`🚀 Servidor listo en: http://localhost:${PORT}`);
     console.log(`📂 Endpoints activos:`);
     console.log(`   👉 POST /api/energy-consump    (Cálculo de Eficiencia)`);
     console.log(`   👉 POST /api/translate (Traductor + MySQL Cache)`);
     console.log(`===========================================================\n`);
 });
 }
-
-// 1. EL PUERTO LOCAL (Solo para tu PC)
-const PORT = 3002;
-
-// 2. EL FILTRO INTELIGENTE
-// Solo encendemos el servidor manualmente si NO estamos en Vercel
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
-    console.log(`✅ Servidor escuchando en: https://localhost:${PORT}`);
-    console.log(`✅ Entorno detectado: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🚀 Servidor listo en: https://localhost:${PORT}`);
-    console.log(`📂 Endpoints activos:`);
-    console.log(`   👉 POST /api/energy-consump    (Cálculo de Eficiencia)`);
-    console.log(`   👉 POST /api/translate (Traductor + MySQL Cache)`);
-    console.log(`===========================================================\n`);
-});
-}
-
 // 3. LA EXPORTACIÓN (Obligatoria para Vercel)
 // Nunca se silencia; es el puente de comunicación con la nube.
 export default app;
+
 

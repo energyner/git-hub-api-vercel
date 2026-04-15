@@ -33,10 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 /* -----------------------------------------------------------
                    🆕 SOCKET HÍBRIDO: DETECCIÓN DINÁMICA DE ENTORNO
                    ----------------------------------------------------------- */
-                const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
+                 const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
                 const API_URL = isLocal 
-                    ? "/api/energy-consump" // Puerto del servidor Node local
-                    : "/api/energy-consump";                   // Ruta unificada en Vercel
+                    ? "http://127.0.0.1:3002/api/energy-consump" // Puerto del servidor Node local
+                    : "/api/energy-consump";    
 
                 console.log(`🚀 Enviando petición a: ${API_URL}`);
 
