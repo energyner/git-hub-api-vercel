@@ -104,7 +104,7 @@ async function translateBatch(texts,lang){
       body: JSON.stringify({ texts, lang })
     });
 
-    console.log("2.56- HTTP:", res.status);
+    console.log("2.56- HTTPS:", res.status);
     // Validación de seguridad antes de procesar JSON
     if (!res.ok) {
         console.error(`2.58- Error en servidor: ${res.status}`);

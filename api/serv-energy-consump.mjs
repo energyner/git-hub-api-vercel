@@ -42,9 +42,9 @@ if (process.env.NODE_ENV !== 'production') {
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
-    console.log(`✅ Servidor escuchando en: http://localhost:${PORT}`);
+    console.log(`✅ Servidor escuchando en: https://localhost:${PORT}`);
     console.log(`✅ Entorno detectado: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🚀 Servidor listo en: http://localhost:${PORT}`);
+    console.log(`🚀 Servidor listo en: https://localhost:${PORT}`);
     console.log(`📂 Endpoints activos:`);
     console.log(`   👉 POST /api/energy-consump    (Cálculo de Eficiencia)`);
     console.log(`   👉 POST /api/translate (Traductor + MySQL Cache)`);
@@ -60,9 +60,9 @@ const PORT = 3002;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
-    console.log(`✅ Servidor escuchando en: http://localhost:${PORT}`);
+    console.log(`✅ Servidor escuchando en: https://localhost:${PORT}`);
     console.log(`✅ Entorno detectado: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🚀 Servidor listo en: http://localhost:${PORT}`);
+    console.log(`🚀 Servidor listo en: https://localhost:${PORT}`);
     console.log(`📂 Endpoints activos:`);
     console.log(`   👉 POST /api/energy-consump    (Cálculo de Eficiencia)`);
     console.log(`   👉 POST /api/translate (Traductor + MySQL Cache)`);

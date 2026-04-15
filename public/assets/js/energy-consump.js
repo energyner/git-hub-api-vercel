@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    ----------------------------------------------------------- */
                 const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
                 const API_URL = isLocal 
-                    ? "http://127.0.0.1:3002/api/energy-consump" // Puerto del servidor Node local
+                    ? "https://127.0.0.1:3002/api/energy-consump" // Puerto del servidor Node local
                     : "/api/energy-consump";                   // Ruta unificada en Vercel
 
                 console.log(`🚀 Enviando petición a: ${API_URL}`);
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 });
 
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                if (!response.ok) throw new Error(`Error HTTPS: ${response.status}`);
 
                 const result = await response.json();
 
