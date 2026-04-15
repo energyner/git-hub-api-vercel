@@ -33,14 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 /* -----------------------------------------------------------
                    🆕 SOCKET HÍBRIDO: DETECCIÓN DINÁMICA DE ENTORNO
                    ----------------------------------------------------------- */
-                 const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
-                const API_URL = isLocal 
-                    ? "http://127.0.0.1:3002/api/energy-consump" // Puerto del servidor Node local
-                    : "/api/energy-consump";    
+                let API_URL;
 
-                console.log(`🚀 Enviando petición a: ${API_URL}`);
+    // 1. Detección de entorno local real
+        const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
-                // 3. Envío al Backend (Endpoint Serverless o Local)
+    // 2. Construcción de URL según entorno
+        if (isLocal) {
+        API_URL = "http://127.0.0.1:3002/api/energy-consump";
+        } else {
+        API_URL = "https://git-hub-api-vercel.vercel.app/api/energy-consump";
+        }
+
+        console.log(`🚀 Enviando petición a: ${API_URL}`);
+      
+
+        // 3. Envío al Backend (Endpoint Serverless o Local)
                 const response = await fetch(API_URL, { 
                     method: 'POST',
                     headers: {

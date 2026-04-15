@@ -93,10 +93,17 @@ async function translateBatch(texts,lang){
 
   try{
     // 🔍 DETECCIÓN DINÁMICA DE ENTORNO
-    const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-    const API_URL = isLocal 
-      ? "http://127.0.0.1:3002/api/translate" // Tu servidor Node activo
-      : "/api/translate";                   // Ruta para Vercel en producción
+    // 1. Detección de entorno local real
+        const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+
+    // 2. Construcción de URL según entorno
+        if (isLocal) {
+        API_URL = "http://127.0.0.1:3002/api/energy-consump";
+        } else {
+        API_URL = "https://git-hub-api-vercel.vercel.app/api/energy-consump";
+        }
+
+        console.log(`🚀 Enviando petición a: ${API_URL}`);                // Ruta para Vercel en producción
 
     const res = await fetch(API_URL, {
       method: "POST",
