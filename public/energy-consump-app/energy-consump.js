@@ -31,7 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // 3. Envío al Backend (Endpoint Serverless)
-                const response = await fetch('http://localhost:3002/api/energy-consump', { // URL Actualizada
+                //Solucion multi entornos (local - produccion nube)
+                const API_URL = location.hostname === "localhost"
+                    ? "http://localhost:3002"
+                    : "";
+                const response = await fetch(`${API_URL}/api/serv-energy-consump`, { // URL Actualizada
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
