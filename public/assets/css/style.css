@@ -1,0 +1,186 @@
+/* =========================================================
+   HUB DE APIs - ESTILOS REFACTORIZADOS (MODO OSCURO)
+   ========================================================= */
+
+:root {
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --border-color: #30363d;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --accent-blue: #58a6ff;
+    --accent-purple: #a855f7;
+    --accent-green: #4ade80;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+* {
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+/*ENCABEZADO SUPERIOR */
+/* Estilo para el encabezado superior (Libro) */
+header-book-info {
+    /* Degradado de blanco puro a un gris humo muy suave */
+    background: linear-gradient(to bottom, #ffffff 80%, #a5a5a6 100%);
+    color: #333333;
+    padding: 30px 0; /* Un poco más de aire mejora la estética */
+    text-align: center;
+    /* Un borde inferior más suave para no "cortar" el degradado */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-book-info h3 {
+    color: #e63946; /* El rojo característico de tu serie */
+    font-size: 1.4rem; /* Un poco más grande para destacar */
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* Opcional: Estilo para el texto secundario bajo el h3 */
+.header-book-info p {
+    font-size: 0.95rem;
+    color: #666666;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* --- ENCABEZADO INFERIOR (HEADER) --- */
+.wrapper-header {
+    background: radial-gradient(circle at top right, #1e293b, #0d1117);
+    padding: 80px 20px;
+    border-bottom: 2px solid var(--accent-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-center {
+    max-width: 850px;
+    text-align: center;
+}
+
+.header-center h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+
+.header-center h3:first-of-type {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.header-center p {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    max-width: 650px;
+    margin: 0 auto 2.5rem auto;
+}
+
+.btn-cta {
+    font-style: normal;
+    font-size: 0.9rem;
+    font-weight: 700;
+    background-color: #0056b3;
+    color: white;
+    padding: 14px 32px;
+    border: 1px solid var(--accent-blue);
+    border-radius: 6px;
+    display: inline-block;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-cta:hover {
+    background-color: var(--accent-blue);
+    box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+}
+
+/* --- CUERPO Y SECCIONES (ANTERIOR SUBCAPITULOS) --- */
+.subcapitulo1 {
+    border-left: 4px solid var(--accent-purple);
+    background: rgba(110, 64, 201, 0.05);
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.subcapitulo1 h4 {
+    margin: 0;
+    color: var(--accent-purple);
+    font-size: 1.5rem;
+}
+
+/* --- GRID DE APIS (COLUMNAS RESPONSIVAS) --- */
+.wrapper-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.column {
+    flex: 1 1 calc(33.333% - 24px);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px;
+    min-width: 180px;
+}
+
+.column:hover {
+    border-color: var(--accent-blue);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+/*Indicador de estado */
+/*El punto de "Estado" se vea como un LED encendido */
+.status-indicator {
+    color: var(--accent-green);
+    margin-right: 5px;
+    filter: drop-shadow(0 0 5px var(--accent-green));
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+/* --- FOOTER --- */
+footer {
+    background-color: var(--bg-main);
+    padding: 40px 0;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .column { flex: 1 1 100%; }
+    .header-center h2 { font-size: 2rem; }
+}

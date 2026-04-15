@@ -1,26 +1,26 @@
-/** 
+/**
  * File enrgy-consump.js
  * Frontend Logic for Energy Consumption App
  * Hub: git-hub-api-vercel
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form'); 
+    const form = document.querySelector('form'); // Asegúrate de envolver tu tabla en un <form>
     
     if (form) {
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
+            e.preventDefault(); // Evita que la página se recargue
 
-            // 1. Captura de datos y conversión técnica
+            // 1. Captura de datos desde la tabla
             const formData = new FormData(form);
             const data = {
                 stream: formData.get('stream'),
-                tension: parseFloat(formData.get('tension')) || 0,
-                intensity: parseFloat(formData.get('intensity')) || 0,
-                cosf: parseFloat(formData.get('cosf')) || 0,
-                efm: parseFloat(formData.get('efm')) || 0,
-                potnom: parseFloat(formData.get('potnom')) || 0,
-                efm1: parseFloat(formData.get('efm1')) || 0
+                tension: formData.get('tension'),
+                intensity: formData.get('intensity'),
+                cosf: formData.get('cosf'),
+                efm: formData.get('efm'),
+                potnom: formData.get('potnom'),
+                efm1: formData.get('efm1')
             };
 
             // 2. Validación básica en el cliente
@@ -30,18 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                /* -----------------------------------------------------------
-                   🆕 SOCKET HÍBRIDO: DETECCIÓN DINÁMICA DE ENTORNO
-                   ----------------------------------------------------------- */
-                const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
-                const API_URL = isLocal 
-                    ? "http://127.0.0.1:3002/api/energy-consump" // Puerto del servidor Node local
-                    : "/api/energy-consump";                   // Ruta unificada en Vercel
-
-                console.log(`🚀 Enviando petición a: ${API_URL}`);
-
-                // 3. Envío al Backend (Endpoint Serverless o Local)
-                const response = await fetch(API_URL, { 
+                // 3. Envío al Backend (Endpoint Serverless)
+                const response = await fetch('http://localhost:3002/api/energy-consump', { // URL Actualizada
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -49,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 });
 
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                if (!response.ok) throw new Error('Error en la comunicación con la API');
 
                 const result = await response.json();
 
@@ -57,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayResults(result);
 
             } catch (error) {
-                console.error('Error en el Socket Híbrido:', error);
-                alert("Hubo un problema al calcular los datos. Verifique la conexión con el servidor local (Puerto 3002).");
+                console.error('Error:', error);
+                alert("Hubo un problema al calcular los datos. Intente de nuevo.");
             }
         });
     }

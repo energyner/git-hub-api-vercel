@@ -1,0 +1,24 @@
+ROUTE SYNCHRONIZATION AND DIRECTORY RESOLUTION
+
+The GIT-HUB-API-VERCEL repository (excluding v1) has been configured to maintain operational parity between the local development environment (WampServer) and the cloud deployment (Vercel platform). The primary divergence lies in the resolution of the project root (root mapping):
+
+A. Local Environment (WampServer)
+WampServer interprets routes based on the Apache server's file system. The root is the `www` directory; therefore, to access the project, the route must include the name of the main project folder:
+
+Local Route: /GIT-HUB-API-VERCEL/PUBLIC/API-FOLDER/INDEX.HTML
+Behavior: The server searches starting from the top-level hierarchy of the hard drive.
+
+B. Cloud Environment (Vercel)
+Vercel utilizes a deployment standard based on the `public` folder. During project configuration, Vercel "moves" the contents of the `public` folder to the domain root.
+
+Production Route: /API-FOLDER/INDEX.HTML
+Behavior: The `public` folder becomes invisible within the URL, thereby simplifying navigation. 
+
+-----------------THIS GIT-HUB-API-VERCE REPOSITORY (WITHOUT V1) HAS BEEN SYNCHRONIZED WITH THE FILE PATHS TO FACILITATE DEPLOYMENT ON THE VERCEL PLATFORM.-----------------------------------------------
+
+b) VERCEL INTERPRETS THAT PATHS ORIGINATE FROM THE `public` FOLDER.
+PRODUCTION PATH: /API-FOLDER/INDEX.HTML
+BEHAVIOR: THE `public` FOLDER BECOMES INVISIBLE IN THE URL, SIMPLIFYING NAVIGATION.
+
+
+

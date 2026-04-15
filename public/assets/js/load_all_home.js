@@ -23,24 +23,58 @@ function loadHTML(url, elementId) {
         });
 }
 
-function loadAll_home() {
-    const BASE = "../assets/doc/";
+/**
+ * ARCHIVO: load_all_home.js
+ * Función universal para carga de componentes comunes (Menu, Footer, Dropdown)
+ * Adaptable a cualquier profundidad de directorio.
+ */
 
+function loadAll_home() {
+    // 1. Buscamos el script por su nombre de archivo físico
+    // Esto es más seguro que document.currentScript en eventos diferidos
+    const scripts = document.getElementsByTagName('script');
+    let scriptPath = "";
+
+    for (let i = 0; i < scripts.length; i++) {
+        if (scripts[i].src.includes('load_all_home.js')) {
+            scriptPath = scripts[i].src;
+            break;
+        }
+    }
+
+    if (!scriptPath) {
+        console.error("Error crítico: No se pudo localizar la ruta de load_all_home.js");
+        return;
+    }
+
+    // 2. Extraemos la base dinámica (Todo lo anterior a /js/)
+    const urlParts = scriptPath.split('/js/');
+    const BASE_DYNAMIC = `${urlParts[0]}/doc/`;
+
+    // 3. Definición de elementos a cargar
     const elements = [
-        {url: `${BASE}menu_home.html`, id: 'lms-main-menu-container'},
-        {url: `${BASE}dropdown_home.html`, id: 'nav2'},
-        {url: `${BASE}footer.html`, id: 'footer'},
-        
+        { url: `${BASE_DYNAMIC}menu_home.html`, id: 'lms-main-menu-container' },
+        { url: `${BASE_DYNAMIC}dropdown_home.html`, id: 'nav2' },
+        { url: `${BASE_DYNAMIC}footer.html`, id: 'footer' }
     ];
 
+    // 4. Ejecución de la carga
     elements.forEach(element => {
-        console.log(`Attempting to load HTML into element with id: ${element.id}`);
         const el = document.getElementById(element.id);
-        if(el){
+        if (el) {
+            console.log(`Cargando: ${element.url} -> #${element.id}`);
             loadHTML(element.url, element.id);
-        }else{
-            console.warn(`Element with id "${element.id}" not found`);
+        } else {
+            console.warn(`Contenedor #${element.id} no presente en este index.`);
         }
     });
 }
+
+// Disparar la función cuando el DOM esté listo
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadAll_home);
+} else {
+    loadAll_home(); // Por si el DOM ya estaba listo
+}
+
 document.addEventListener("DOMContentLoaded", loadAll_home);

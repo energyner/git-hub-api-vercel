@@ -1,6 +1,6 @@
 import { db } from './config/localdb-config.mjs';
 import fetch from 'node-fetch'; // O usa el fetch nativo de Node 24+
-import { apiKey as localKey } from './config/apikey.mjs';
+import { apiKey as localKey } from './config/apiKey.mjs';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*'); // Permite que el puerto 3002 hable con este

@@ -1,5 +1,5 @@
+/* translator.js logica - Maneja el Traductor*/
 console.log("0.11- translator.js cargado");
-
 let currentLang = "en";
 let translating = false;
 
@@ -57,7 +57,7 @@ async function loadLanguageSelector(){
 
     console.log("1.24- Cargando selector de idioma");
 
-    const res = await fetch("../assets/doc/idioms.html");   
+    const res = await fetch("/assets/doc/idioms.html");   
   
     console.log("1.27- Respuesta fetch status:", res.status);
 
@@ -72,6 +72,8 @@ async function loadLanguageSelector(){
   }catch(error){
 
     console.error("1.36- Error:",error);
+    const fallback = await fetch("/assets/doc/idioms.html").catch(() => null);
+    if(fallback && fallback.ok) container.innerHTML = await fallback.text();
 
   }
 
@@ -90,15 +92,24 @@ async function translateBatch(texts,lang){
   }
 
   try{
+    // 🔍 DETECCIÓN DINÁMICA DE ENTORNO
+    const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    const API_URL = isLocal 
+      ? "http://127.0.0.1:3002/api/translate" // Tu servidor Node activo
+      : "/api/translate";                   // Ruta para Vercel en producción
 
-    const res = await fetch("http://localhost:3002/api/translate",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ texts, lang })
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texts, lang })
     });
 
     console.log("2.56- HTTP:", res.status);
-
+    // Validación de seguridad antes de procesar JSON
+    if (!res.ok) {
+        console.error(`2.58- Error en servidor: ${res.status}`);
+        return {};
+    }
     const data = await res.json();
 
     console.log("2.61- Backend keys:", Object.keys(data).length);

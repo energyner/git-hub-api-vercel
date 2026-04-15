@@ -50,5 +50,15 @@ if (isIos() && !inStandaloneMode()) {
 
 //Cargando el script mediante código. No se "ejecuta" como un script normal en el HTML
 // Estableciendo la ruta desde la raiz /sw para evitar confucion.
- if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js') .then(() => console.log('Service Worker Activo')) .catch(err => console.log('Error de SW:', err)); }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/energy-consump-app/sw.js', {
+    scope: '/energy-consump-app/' 
+  })
+  .then((reg) => {
+    console.log('Service Worker Registrado con éxito en el Scope:', reg.scope);
+  })
+  .catch(err => {
+    console.log('Error de registro (Revisa la consola Network):', err);
+  });
+}
 //FIN DE LOS SCRIPTS MANIPULADORES-->

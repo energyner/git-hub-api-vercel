@@ -1,71 +1,60 @@
-GIR-HUB-API-VERCEL
+GIT-HUB-API-VERCEL
 
-Una plataforma Global de multiples APIs - Hub de microservicios.
+A Global Platform of Multiple APIs — A Microservices Hub.
 
+Project Mission and Vision
 
+The new Energyner project evolves from an isolated application into a scalable, high-performance microservices infrastructure. Through the `git-hub-api-vercel` repository, we decouple business logic to construct an API Hub capable of processing critical data across multiple dimensions of knowledge.
 
-Mision y Vision del proyecto
+The horizon of this project transcends conventional software development; we aspire to establish an integration platform where modular APIs can agilely transform into Progressive Web Apps (PWAs) downloadable on any mobile device.
 
-El nuevo proyecto Energyner evoluciona de una aplicación aislada a una infraestructura de microservicios escalable y de alto rendimiento. Mediante el repositorio git-hub-api--vercel, desacoplamos la lógica de negocio para construir un Hub de APIs capaz de procesar datos críticos en múltiples dimensiones del conocimiento.
+Our mission is to democratize access to specialized calculation and analysis tools, creating an environment that is as intuitive for the general public as it is powerful and engaging for the developer community—what we have termed "A Hub for Knowledge and Collaboration."
 
+Structure: Project File Explorer. Classification of assets into common resources versus those specific to each individual API.
 
+•	git-hub-api-vercel/
+•	.vercel/
+•	api/ 
+	o	serv-energy-consump.mjs 
+	o	translate.mjs
+	o	_calculations/ <-- Funciones.
+			calories-burned.mjs
+			energy-consumption.mjs
+			...others
+	o	config/
+			localdb-config.mjs
+			apikey.mjs
+•	public/ <-- Vercel sirve esto como estático automáticamente.
+	o	assets/
+			css
+			doc
+			img
+			js
+	o	energy-consump-app/
+			index.html (Pagina HTML propia de la aplicación)
+			energy-consump.js
+			sw.js
+			manifest.json
+			style.css
+	o	Others APIs
 
-El horizonte de este proyecto trasciende el desarrollo de software convencional; aspiramos a consolidar una plataforma de integración donde las APIs modulares se transformen con agilidad en Aplicaciones Web Progresivas (PWAs) descargables en cualquier dispositivo móvil.
+	o	index.html (Entrada HTML común del HUB de Apis)
+•	node-modules
+•	.env.local
+•	.gitignore
+•	package-loc.json
+•	package.json
+•	vercel.json 
+•	README.md
+•	index.html
 
+The file system adheres to the concept of "Separation of Concerns":
 
+a) Isolation of Mathematical Logic: It highlights that `energy-consump-function.mjs` has no knowledge of HTML or APIs; it consists of pure mathematics. This ensures that if a decision is made in the future to switch from Express to a different framework, the calculation logic remains untouched.
 
-Nuestra misión es democratizar el acceso a herramientas de cálculo y análisis especializado, creando un entorno tan intuitivo para el público general como potente y atractivo para la comunidad de desarrolladores, lo que hemos llamado “Un Hub de Conocimiento y Colaboración”. 
+b) The Concept of Dynamic Injection: It explains that `load_all_home.js` acts as a dependency injector. It does not load the entire site at once; instead, it "fetches" the necessary components (e.g., `menu_home.html`, `footer.html`) only when they are required.
 
-
-
-Estructura, explorador de archivos del proyecto. Calificacion entre activos comunes y propios de cada API 
-
-
-
-FRONTEND (ZONA VISUAL)
-
-<head>
-
-public/assets/css/main1.css" /><!--Estilos comunes menú hamburguesa-->
-
-public/assets/css/main11.css" /> <!--Estilos comunes de selectores HTML a las páginas index.html de cada API-->
-
-public/assets/css/idioms.css">  <!--Estilos comunes menú Traductor Desplegable Google Trasnlator-->
-
-public/assets/css/energy-consump.css"><!--Estilos propios de selectores HTML de cada paginas index.html de cada API-->
-
-public/manifest.json"><!—Archivo común que define identidad visual,  comportamiento de instalación, apariencia tipo app móvil - PWA.
-
-
-
-<header>
-
-public/assets/img/loggo.png <!--Imagen común del Logo corporativo-->
-
-<main>
-
-public/assets/js/api-app.js <!—Archivo común para registrar el Service Worker, Gestionar el proceso de instalación en Adorid e iOS-->
-
-
-
-<end>
-
-public/assets/js/menu\_hamburger.js"><!—Logica común  del  menu hamburguesa-->
-
-public/assets/js/load\_all\_home.js"><!---Carga paginas comunes html que se importaran a la página index.html (menu, footer, dropdown-->
-
-public/assets/js/translator.js"><!--Logica común del menu traduccion, carga la API y coneccion Google Translator-->     
-
-public/assets/js/energy-consump.js"  ><!--Logica de los componentes propios de cada pagina-->  
-
-
-
-BACKEND (ZONA OCULTA)
-
-api/server/serv-energy-consump-app.mjs <!--Servidor - controlador propio de la API - Cálculos - Conexión a funciones-->  
-
-api/\_calculations/energy-consump-function.mjs <!--Funciones propias de cada API - Calculos-->
-
+c) Security Safeguard: It notes that the "Hidden Zone" must be protected by a `.gitignore` file. This constitutes a vital security requirement: "Anything specific to the API—and containing secrets—must never leave the server."
 
 
 Autor: Rene F. Ruano

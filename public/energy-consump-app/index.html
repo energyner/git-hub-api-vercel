@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../assets/css/idioms.css">  
     <link rel="stylesheet" href="../assets/css/energy-consump.css">
      <!--LINKS Y SCRIPTS PARA CONVDERTIR LA APICACION EN APPs-->
-    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Git-Api-Energyner">
@@ -17,17 +17,11 @@
     <!--FIN DE LOS LINKS Y SCRIPTS PARA CONVERTIR LA APICACION EN UNA APPs-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
-<meta name="description" content="Calculadora profesional de consumo y eficiencia en 
-motores eléctricos monofásicos y trifásicos mediante parámetros de voltaje y amperaje.">
-<meta name="keywords" content="electrical consumption calculation, motor efficiency, 
-single-phase motor, three-phase motor, electrical work, power factor, 
-electrical parameter measurement, wattmeter, energy engineering, 
-energy saving, industrial maintenance, motor consumption, 
-operating parameters, real power calculation">
-<!--meta property="og:title, description, image" definen propiedades que se mostrará cuando alguien comparta el enlace de tu aplicación, convirtiendo una simple URL en una "tarjeta enriquecida" (Rich Card)-->
-<meta property="og:title" content="Energyner - Cálculo de Consumo de Motores">
-<meta property="og:description" content="Calcula el trabajo eléctrico real y eficiencia de tus motores sin conocer la placa técnica.">
-<meta property="og:image" content="../assets/img/energy-icon.png">
+<meta name="description" content="Advanced energy efficiency calculator for electric motors. Analyzes energy consumption, thermal losses, and environmental impact of single-phase and three-phase motors in real time.">
+<meta name="keywords" content="energy efficiency, motor calculation, electrical engineering, electricity consumption, CO2, primary energy, three-phase motor, single-phase motor, applied thermodynamics, API microservices">
+<!--Meta Tag property="og:image" que le dice a las redes sociales qué imagen deben mostrar cuando alguien comparte tu página.-->
+<meta property="og:image" content="https://enegyner.net/jscript/images/headE2.jpg">
+
 
 <title>energy-consumption - API</title>
  <meta name="robots" content="index">
@@ -205,6 +199,8 @@ operating parameters, real power calculation">
         <li><strong>Single-phase Systems:</strong> P = (V × I × cos φ) / 1000</li>
         <li><strong>Three-phase Systems:</strong> P = (√3 × V × I × cos φ) / 1000</li>
     </ul>
+
+    <p style="line-height: 1.6;">Given equal voltage and current, a three-phase system delivers 73.2% more power (√3) than a single-phase system. Our API captures this physical reality with precision, reflecting not only the increase in work capacity (Shaft Power) but also the proportional impact on carbon footprint and primary energy consumption."</p>
     <p style="line-height: 1.6; font-style: italic; background: #f9f9f9; padding: 10px; border-left: 4px solid #3498db;">
         Beyond terminal power, the API evaluates the entire energy chain, from primary fossil fuel equivalence to mechanical work at the shaft, providing a comprehensive "well-to-wheel" energy audit.
     </p>

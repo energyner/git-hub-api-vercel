@@ -1,0 +1,276 @@
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;    
+}
+   * { /* selector universal */
+    box-sizing: border-box;
+   }
+   header, footer {
+    background-color: rgb(248, 229, 173, 0.3);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 1em 0;
+   }
+
+/*estilos para los encabezamientos de los textos*/
+.subcapitulo1{
+  border: 1px solid black; 
+  border-radius: 0px;
+  background-color: #f0e9fd;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Sombra ligera */
+  padding: 10px; 
+  color:black; 
+  text-align: center; 
+}
+.subcapitulo2{
+  border: 1px solid black; 
+  background-color: #faf2fd;
+  padding: 10px; 
+  color:black; 
+  text-align: center; 
+  font-size:  14px; 
+  font-weight:bold;
+}
+.subcapitulo3{
+  border: 1px solid black; 
+  background-color: #faf2fd;
+  padding: 0px; 
+  color:black; 
+  text-align: left; 
+  font-size:  12px; 
+  font-weight:bold;
+}
+.articulo1 {
+  color:rgba(7, 69, 11, 0.785); 
+  border: 2px solid crimson;
+  font-size:  16px; 
+  font-weight:500;
+}
+   
+/*Estilos de 3 Divisiones responsives*/
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas se ajusten al ancho de la pantalla */
+}
+
+.column {
+    flex: 0 0 33%; /* Cada columna ocupa un tercio del ancho */
+    max-width: 33%; /* Se establece un ancho máximo para evitar que las columnas se expandan demasiado en pantallas grandes */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+    padding: 20px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde para visualización */
+    text-align: left; /* Centra el contenido */
+}
+
+/*ESTILOS PARA EL BOTON DE INSTALACION DE LA APP EN CELULARES */
+#install-section {
+        margin: 15px auto !important;
+        text-align: center !important;
+        display: none; /* Para que el JS pueda mostrarlo */
+    }
+
+.btn-app {
+    display: inline-block;
+    padding: 14px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* Fondo oro brillante */
+    background: linear-gradient(135deg, #fff8dc, #E6B800, #fff8dc);
+
+    /* Borde luminoso */
+    border: 2px solid rgba(255, 215, 0, 0.8);
+
+    /* Sombra elegante */
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.btn-app:hover {
+    /* Más brillo al pasar el mouse */
+    background: linear-gradient(135deg, #FFE066, #FFD700, #F4C430);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.55);
+}
+
+.btn-app:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(255, 215, 0, 0.35);
+}
+ 
+#clima_resultado { 
+    margin-top: 20px; 
+  }
+
+  /*estilos para los links*/
+  .link-container-entrenamiento {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    position: relative; /* Añadido para asegurar que z-index funcione correctamente */
+}
+
+.link-item-entrenamiento {
+    display: block;
+    width: calc(100% - 20px); /* Ajusta el ancho para el padding de 10px a cada lado */
+    margin: 5px 0; /* Espaciado de 2px entre enlaces */
+    padding: 10px;/* Limitando la altura del contenedor a 5px entre enlaces */
+    background-color: hsl(164, 89%, 22%);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    position: relative; /* Añadido para asegurar que z-index funcione
+    correctamente */
+    z-index:6;
+}
+
+.link-item-entrenamiento:hover {
+    background-color: orange;
+}
+
+#noticias_New, #noticias_G {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+/*Estilos para los formularios */
+
+
+form {
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 60%;
+  padding: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  width: 60%;
+  padding: 6px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+/* Concatenar el resto de los selectores a imprimir el resultado*/
+#resultadoConsumo, #resultadoSolar {
+  font-weight: bold;
+  color: #2c3e50; /* Un color oscuro para mejor legibilidad */
+  background-color: #ecf0f1; /* Un fondo claro para contraste */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  border: 1px solid #bdc3c7; /* Un borde suave para definición */
+  text-align: center; /* Centra el texto */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Añade una ligera sombra */
+}
+
+@media screen and (max-width: 576px) {
+     /* 1. Achicamos el contenedor del botón */
+    #install-section {
+        margin: 15px auto !important;
+        text-align: center !important;
+        display: block; /* Para que el JS pueda mostrarlo */
+    }
+
+    /* 2. Botón con dimensiones optimizadas para pulgar pequeño */
+    .btn-app {
+        font-size: 14px !important; /* Fuente más pequeña */
+        padding: 8px 12px !important; /* Padding reducido */
+        width: auto !important; /* No ocupa todo el ancho, solo lo necesario */
+        min-width: 140px; 
+        border-radius: 8px !important;
+        display: inline-block !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+    }
+
+    /* 3. Ocultamos el texto largo para que no se desborde */
+    .hide-mobile {
+        display: none !important;
+    }
+
+    footer {
+        background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+        color: #fff; /* Color del texto del footer */
+        text-align: center; /* Centra el texto del footer */
+        padding: 20px 0; /* Espacio interno del footer */
+        font-size: 12px;
+
+    }
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* 1. Achicamos el contenedor del botón */
+    #install-section {
+        margin: 15px auto !important;
+        text-align: center !important;
+        display: block; /* Para que el JS pueda mostrarlo */
+    }
+
+    /* 2. Botón con dimensiones optimizadas para pulgar pequeño */
+    .btn-app {
+        font-size: 14px !important; /* Fuente más pequeña */
+        padding: 8px 12px !important; /* Padding reducido */
+        width: auto !important; /* No ocupa todo el ancho, solo lo necesario */
+        min-width: 140px; 
+        border-radius: 8px !important;
+        display: inline-block !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+    }
+
+    /* 3. Ocultamos el texto largo para que no se desborde */
+    .hide-mobile {
+        display: none !important;
+    }
+
+    footer {
+        background-color: rgb(26, 35, 126, 0.8); /* Color de fondo del footer */
+        color: #fff; /* Color del texto del footer */
+        text-align: center; /* Centra el texto del footer */
+        padding: 20px 0; /* Espacio interno del footer */
+        font-size: 12px;
+
+    }
+}
+
+  @media (max-width: 768px) {
+    .column {
+        flex: 0 0 100%; /* En pantallas más pequeñas, cada columna ocupa el 100% del ancho */
+        max-width: 100%; /* Ancho máximo del 100% */
+    }
+   }

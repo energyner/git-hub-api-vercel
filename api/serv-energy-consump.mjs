@@ -1,39 +1,4 @@
-/*ETAPA PRODUCCION*/
-// /*energy-consumption.mjs - servidor */
-// /*Etapa de desarrollo se mantiene export default async function handler*/
-// /*Etapa de produccion - Vercel - se pasa a  default async function handler y al final del archivo export default app;*/
-// import { calculateEnergy } from './_calculations/energy-logic.mjs';
 
-// export default async function handler(req, res) {
-//     // Solo permitimos POST (desde tu formulario)
-//     if (req.method !== 'POST') {
-//         return res.status(405).json({ error: 'Método no permitido' });
-//     }
-
-//     try {
-//         const data = req.body;
-        
-//         // Ejecutamos la lógica refactorizada
-//         const resultados = calculateEnergy(data);
-
-//         // Respondemos con el objeto de resultados
-//         res.status(200).json(resultados);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Error en el cálculo', detalle: error.message });
-//     }
-// }
-
-// if (process.env.NODE_ENV !== 'production') {
-//     const PORT = process.env.PORT || 3002;
-//     app.listen(PORT, '0.0.0.0', () => {
-//         console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
-//         console.log(`✅ Servidor escuchando en: http://0.0.0.0:${PORT}`);
-//         console.log(`📂 Módulos: Consumo, Solar, Carbono, Calorias, Vapor`);
-//         console.log(`===========================================================\n`);
-//     });
-// }
-// // CRÍTICO PARA VERCEL: Exportar la instancia de la app
-// //export default app;
 
 /*PRUEBAS LOCALES */
  /*energy-consumption.mjs - servidor */
@@ -73,12 +38,39 @@ app.post('/api/energy-consump', (req, res) => {
 app.post('/api/translate', translateHandler);
 
 // INICIO DEL SERVIDOR (Solo local)
+if (process.env.NODE_ENV !== 'production') {
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
     console.log(`✅ Servidor escuchando en: http://localhost:${PORT}`);
+    console.log(`✅ Entorno detectado: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🚀 Servidor listo en: http://localhost:${PORT}`);
     console.log(`📂 Endpoints activos:`);
     console.log(`   👉 POST /api/energy-consump    (Cálculo de Eficiencia)`);
     console.log(`   👉 POST /api/translate (Traductor + MySQL Cache)`);
     console.log(`===========================================================\n`);
 });
+}
+
+// 1. EL PUERTO LOCAL (Solo para tu PC)
+const PORT = 3002;
+
+// 2. EL FILTRO INTELIGENTE
+// Solo encendemos el servidor manualmente si NO estamos en Vercel
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n============== ENERGYNER API GATEWAY (LOCAL) ==============`);
+    console.log(`✅ Servidor escuchando en: http://localhost:${PORT}`);
+    console.log(`✅ Entorno detectado: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🚀 Servidor listo en: http://localhost:${PORT}`);
+    console.log(`📂 Endpoints activos:`);
+    console.log(`   👉 POST /api/energy-consump    (Cálculo de Eficiencia)`);
+    console.log(`   👉 POST /api/translate (Traductor + MySQL Cache)`);
+    console.log(`===========================================================\n`);
+});
+}
+
+// 3. LA EXPORTACIÓN (Obligatoria para Vercel)
+// Nunca se silencia; es el puente de comunicación con la nube.
+export default app;
+
