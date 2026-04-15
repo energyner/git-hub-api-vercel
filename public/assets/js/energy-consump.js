@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    ----------------------------------------------------------- */
                 const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
                 const API_URL = isLocal 
-                    ? "https://127.0.0.1:3002/api/energy-consump" // Puerto del servidor Node local
+                    ? "/api/energy-consump" // Puerto del servidor Node local
                     : "/api/energy-consump";                   // Ruta unificada en Vercel
 
                 console.log(`🚀 Enviando petición a: ${API_URL}`);
