@@ -84,6 +84,8 @@ async function loadLanguageSelector(){
 ------------------------------------------*/
 async function translateBatch(texts, lang){
 
+  console.log("2.10 📤 Enviando a API:", { count: texts.length, lang });
+
   if(texts.length === 0) return {};
 
   try{
@@ -94,8 +96,21 @@ async function translateBatch(texts, lang){
       body: JSON.stringify({ texts, lang })
     });
 
+    console.log("2.20 📡 Response status:", response.status);
+
+    // 🔥 NUEVO: ver respuesta RAW si hay error
     if (!response.ok){
-      console.error("Translate API error:", response.status);
+
+      let raw;
+      try {
+        raw = await response.text();
+      } catch(e){
+        raw = "No raw body";
+      }
+
+      console.error("2.25 ❌ API ERROR STATUS:", response.status);
+      console.error("2.26 ❌ API ERROR BODY:", raw);
+
       return {};
     }
 
@@ -103,8 +118,9 @@ async function translateBatch(texts, lang){
 
     try{
       data = await response.json();
+      console.log("2.30 ✅ JSON recibido:", Object.keys(data).length, "keys");
     }catch(e){
-      console.error("Invalid JSON from API");
+      console.error("2.31 ❌ Invalid JSON from API");
       return {};
     }
 
@@ -117,7 +133,7 @@ async function translateBatch(texts, lang){
 
   }catch(error){
 
-    console.error("Network error:", error);
+    console.error("2.40 ❌ Network error:", error);
     return {};
 
   }
@@ -210,6 +226,13 @@ async function translatePage(lang){
     }
 
     const texts = Array.from(textSet);
+    console.log("3.200 📦 Texts a traducir:", texts.slice(0,5));
+    console.log("3.201 📊 Total textos:", texts.length);
+    if(texts.length > 0){
+    console.log("3.210 🚀 Llamando API...");
+    translations = await translateBatch(texts, lang);
+    }
+
 
     let translations = {};
 
