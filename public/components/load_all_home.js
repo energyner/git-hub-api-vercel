@@ -47,25 +47,22 @@ function loadAll_home() {
         return;
     }
 
-    // 2. Extraemos la base dinámica (Todo lo anterior a /components/)
-    const urlParts = scriptPath.split('/components/');
-    const BASE_DYNAMIC = `${urlParts[0]}/doc/`;
+   // 1. Detectamos la ruta completa del script
+const scriptPath = document.currentScript.src;
 
-    // 3. Definición de elementos a cargar
-  const scriptPath = document.currentScript.src;
-
-// 1. Extraemos todo lo anterior a /components/
+// 2. Extraemos todo lo anterior a /components/
 const base = scriptPath.split('/components/')[0];
 
-// 2. Construimos la ruta correcta hacia /assets/doc/
+// 3. Construimos la ruta correcta hacia /assets/doc/
 const BASE_DYNAMIC = `${base}/assets/doc/`;
 
-// 3. Definimos los elementos
+// 4. Definimos los elementos
 const elements = [
     { url: `${BASE_DYNAMIC}menu_home.html`, id: 'lms-main-menu-container' },
     { url: `${BASE_DYNAMIC}dropdown_home.html`, id: 'nav2' },
     { url: `${BASE_DYNAMIC}footer.html`, id: 'footer' }
 ];
+
 
     // 4. Ejecución de la carga
     elements.forEach(element => {
