@@ -230,6 +230,7 @@ async function translatePage(lang){
     console.log("3.201 📊 Total textos:", texts.length);
     if(texts.length > 0){
     console.log("3.210 🚀 Llamando API...");
+    let translations = {};
     translations = await translateBatch(texts, lang);
     }
 

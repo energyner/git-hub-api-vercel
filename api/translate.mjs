@@ -53,7 +53,7 @@ export default async function handler(req, res) {
         if (!apiKey) {
             return res.status(500).json({ error: "API key not configured" });
         }
-
+        console.log("56 -  API KEY exists:", !!process.env.GOOGLE_API_KEY);
         const translations = {};
         const missing = [];
 
