@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 3. Envío al Backend (Endpoint Serverless)
                 //Solucion multi entornos (local - produccion nube)
                 const API_URL = location.hostname === "localhost"
-                    ? "https://localhost:3002"
+                    ? "https://127.0.0.1:3002"
                     : "";
                 const response = await fetch(`${API_URL}/api/serv-energy-consump`, { // URL Actualizada
                     method: 'POST',
