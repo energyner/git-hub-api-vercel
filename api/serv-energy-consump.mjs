@@ -1,11 +1,11 @@
 
 
-/*PRUEBAS LOCALES */
+/*PRUEBAS */
  /*energy-consumption.mjs - servidor */
 import express from 'express';
 import cors from 'cors';
-import { calculateEnergy } from './_calculations/energy-consump-function.mjs';
-import translateHandler from './translate.mjs';
+import { calculateEnergy } from '/_calculations/energy-consump-function.mjs';
+import translateHandler from '/translate.mjs';
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(express.json());
  * TAREA 1: API Energy Consumption
  * Endpoint: /api/energy-consump
  */
-app.post('/api/energy-consump', (req, res) => {
+app.post('/api/serv-energy-consump', (req, res) => {
     try {
         const data = req.body;
         // La lógica sigue importada de energy-logic.mjs

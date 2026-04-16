@@ -100,7 +100,7 @@ async function translateBatch(texts,lang){
         if (isLocal) {
         API_URL = "http://127.0.0.1:3002/api/energy-consump";
         } else {
-        API_URL = "https://git-hub-api-vercel.vercel.app/api/energy-consump";
+        API_URL = "https://git-hub-api-vercel.vercel.app/api/traslate.mjs";
         }
 
         console.log(`🚀 Enviando petición a: ${API_URL}`);                // Ruta para Vercel en producción
