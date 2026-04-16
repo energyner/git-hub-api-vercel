@@ -4,7 +4,7 @@ const CACHE_NAME = 'git-hub-api-vercel';
 const urlsToCache = [
   './energy-consump-app/index.html',
   './assets/css/main1.css', 
-  './assets/js/energy-consump.js'
+  './energy-consump-app/energy-consump.js'
 ];
 
 self.addEventListener('install', event => {
