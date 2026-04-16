@@ -225,20 +225,15 @@ async function translatePage(lang){
 
     }
 
-    const texts = Array.from(textSet);
+   const texts = Array.from(textSet);
+
     console.log("3.200 📦 Texts a traducir:", texts.slice(0,5));
     console.log("3.201 📊 Total textos:", texts.length);
+
+    let translations = {}; // ✅ SOLO UNA VEZ
+
     if(texts.length > 0){
-    console.log("3.210 🚀 Llamando API...");
-    let translations = {};
-    translations = await translateBatch(texts, lang);
-    }
-
-
-    let translations = {};
-
-    // 🔥 solo llamar API si hay textos nuevos
-    if(texts.length > 0){
+      console.log("3.210 🚀 Llamando API...");
       translations = await translateBatch(texts, lang);
     }
 
@@ -323,12 +318,23 @@ function detectLanguage(){
   if(!lang) lang = document.documentElement.lang;
   if(!lang) lang = navigator.language;
 
-  if(lang){
-    lang = lang.toLowerCase();
-    lang = lang.startsWith("zh") ? "zh-CN" : lang.slice(0,2);
-  }
+  if (lang) {
+  lang = lang.toLowerCase();
 
-  const supported = ["es","en","pt","fr","it","de","ru","hi","zh-CN"];
+  // manejar chino correctamente
+  if (lang.startsWith("zh")) {
+    if (lang.includes("tw")) {
+      lang = "zh-TW"; // tradicional
+    } else {
+      lang = "zh-CN"; // simplificado
+    }
+  } else {
+    // otros idiomas → solo código base
+    lang = lang.split("-")[0];
+  }
+}
+
+  const supported = ["es","en","pt","fr","it","de","ru","hi","zh-CN","zh-TW"];
 
   if(!supported.includes(lang)){
     console.warn("5.230- fallback EN");
