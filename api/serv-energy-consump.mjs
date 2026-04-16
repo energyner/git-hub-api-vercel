@@ -1,5 +1,5 @@
  /*energy-consumption.mjs - servidor */
-import { calculateEnergy } from '../calculations/energy-consump-function.mjs';
+import { calculateEnergy } from './calculations/energy-consump-function.mjs';
 import translateHandler from './translate.mjs';
 
 export default async function handler(req, res) {
