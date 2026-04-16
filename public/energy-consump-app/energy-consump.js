@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify(data)
                 });
-
+                console.log("L45 = Método enviado:", "POST");
+                console.log("L46 = URL:", `${API_URL}/api/serv-energy-consump`);
+                console.log("L47 = Payload:", data);
                 if (!response.ok) throw new Error('Error en la comunicación con la API');
 
                 const result = await response.json();
