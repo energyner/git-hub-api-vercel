@@ -30,8 +30,8 @@ function loadHTML(url, elementId) {
  */
 
 function loadAll_home() {
-    // 1. Buscamos el script por su nombre de archivo físico
-    // Esto es más seguro que document.currentScript en eventos diferidos
+
+    // 1. Buscamos la ruta real del script load_all_home.js
     const scripts = document.getElementsByTagName('script');
     let scriptPath = "";
 
@@ -47,24 +47,20 @@ function loadAll_home() {
         return;
     }
 
-   // 1. Detectamos la ruta completa del script
-const scriptPath = document.currentScript.src;
+    // 2. Extraemos todo lo anterior a /components/
+    const base = scriptPath.split('/components/')[0];
 
-// 2. Extraemos todo lo anterior a /components/
-const base = scriptPath.split('/components/')[0];
+    // 3. Construimos la ruta correcta hacia /assets/doc/
+    const BASE_DYNAMIC = `${base}/assets/doc/`;
 
-// 3. Construimos la ruta correcta hacia /assets/doc/
-const BASE_DYNAMIC = `${base}/assets/doc/`;
+    // 4. Definimos los elementos
+    const elements = [
+        { url: `${BASE_DYNAMIC}menu_home.html`, id: 'lms-main-menu-container' },
+        { url: `${BASE_DYNAMIC}dropdown_home.html`, id: 'nav2' },
+        { url: `${BASE_DYNAMIC}footer.html`, id: 'footer' }
+    ];
 
-// 4. Definimos los elementos
-const elements = [
-    { url: `${BASE_DYNAMIC}menu_home.html`, id: 'lms-main-menu-container' },
-    { url: `${BASE_DYNAMIC}dropdown_home.html`, id: 'nav2' },
-    { url: `${BASE_DYNAMIC}footer.html`, id: 'footer' }
-];
-
-
-    // 4. Ejecución de la carga
+    // 5. Carga de los elementos
     elements.forEach(element => {
         const el = document.getElementById(element.id);
         if (el) {
@@ -75,6 +71,7 @@ const elements = [
         }
     });
 }
+
 
 // Disparar la función cuando el DOM esté listo
 if (document.readyState === "loading") {
