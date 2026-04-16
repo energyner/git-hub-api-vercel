@@ -1,6 +1,7 @@
 {
   "version": 2,
   "cleanUrls": true,
+
   "headers": [
     {
       "source": "/api/(.*)",
@@ -10,5 +11,14 @@
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }
+  ],
+
+  "routes": [
+    { "handle": "filesystem" },
+
+    { "src": "^/assets/(.*)", "dest": "/public/assets/$1" },
+    { "src": "^/energy-consump-app/(.*)", "dest": "/public/energy-consump-app/$1" },
+    
+    { "src": "^/$", "dest": "/index.html" }
   ]
 }
