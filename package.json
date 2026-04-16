@@ -2,9 +2,9 @@
   "name": "git-hub-api-vercel",
   "version": "1.0.0",
   "description": "Suite de Ingeniería Multi-API con soporte PWA y Vercel Postgres",
-   "type": "module",
+  "type": "module",
   "scripts": {
-   "dev": "vercel dev",
+    "dev": "vercel dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@vercel/postgres": "^0.9.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",

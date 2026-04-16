@@ -1,4 +1,4 @@
-import { db } from './config/localdb-config.mjs';
+import { sql } from './config/db.mjs';
 
 export default async function handler(req, res) {
 
@@ -48,7 +48,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "No valid texts" });
         }
 
-        // 🔐 API KEY SOLO DESDE ENV
+        // 🔐 API KEY
         const apiKey = process.env.GOOGLE_API_KEY;
         if (!apiKey) {
             return res.status(500).json({ error: "API key not configured" });
@@ -57,27 +57,35 @@ export default async function handler(req, res) {
         const translations = {};
         const missing = [];
 
-        // 🔥 4. CACHE DB
-        for (const text of cleanTexts) {
+        // 🔥 4. CACHE DB (PARALELO 🔥)
+        const queries = cleanTexts.map(text => 
+            sql`
+                SELECT original_text, translated_text 
+                FROM translations 
+                WHERE original_text = ${text} 
+                AND target_lang = ${lang}
+                LIMIT 1
+            `
+        );
 
-            const [rows] = await db.execute(
-                'SELECT translated_text FROM translations WHERE original_text = ? AND target_lang = ? LIMIT 1',
-                [text, lang]
-            );
+        const results = await Promise.all(queries);
+
+        results.forEach((rows, index) => {
+            const text = cleanTexts[index];
 
             if (rows.length > 0) {
                 translations[text] = rows[0].translated_text;
             } else {
                 missing.push(text);
             }
-        }
+        });
 
         // 🔥 5. TODO EN CACHE
         if (missing.length === 0) {
             return res.status(200).json(translations);
         }
 
-        // 🔥 6. GOOGLE API (con timeout)
+        // 🔥 6. GOOGLE API (timeout)
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 8000);
 
@@ -119,7 +127,7 @@ export default async function handler(req, res) {
 
         const googleTranslations = googleData.data.translations;
 
-        // 🔥 7. INSERTS EN PARALELO
+        // 🔥 7. INSERTS EN PARALELO (NEON STYLE)
         const insertPromises = [];
 
         for (let i = 0; i < missing.length; i++) {
@@ -130,11 +138,12 @@ export default async function handler(req, res) {
             translations[original] = translated;
 
             insertPromises.push(
-                db.execute(
-                    'INSERT IGNORE INTO translations (original_text, translated_text, target_lang) VALUES (?, ?, ?)',
-                    [original, translated, lang]
-                )
-            );
+        sql`
+        INSERT INTO translations (original_text, translated_text, target_lang)
+        VALUES (${original}, ${translated}, ${lang})
+        ON CONFLICT (original_text, target_lang)
+        DO UPDATE SET translated_text = EXCLUDED.translated_text `
+        );
         }
 
         await Promise.all(insertPromises);
@@ -143,10 +152,11 @@ export default async function handler(req, res) {
 
     } catch (error) {
 
-        console.error("Translator API error:", error);
+        console.error("🔥 Translator API error:", error);
 
         return res.status(500).json({
-            error: "Internal Server Error"
+            error: "Internal Server Error",
+            detail: error.message
         });
     }
 }
