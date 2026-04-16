@@ -1,53 +1,42 @@
-# --- DEPENDENCIAS (CRÍTICO) ---
-# Vercel instalará estas librerías automáticamente usando tu package.json
+# --- DEPENDENCIAS ---
 node_modules/
 jspm_packages/
 
-# --- ARCHIVOS DE SISTEMA Y CACHÉ ---
-# Evita subir archivos basura de Windows o macOS
+# --- SISTEMA ---
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# --- CONFIGURACIÓN DE VERCEL ---
-# Esta carpeta se crea al vincular el proyecto con la nube
+# --- VERCEL ---
 .vercel/
 
-# --- LOGS Y DEPURACIÓN ---
-# No satures el repositorio con registros de errores locales
+# --- LOGS ---
+*.log
+logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-logs/
-*.log
 
-# --- VARIABLES DE ENTORNO (SEGURIDAD) ---
-# Nunca subas llaves secretas o configuraciones de red local a Git
-.env
-.env.local
-.env.production
-.env.development
+# --- ENV (SEGURIDAD) ---
+.env*
+!.env.example
 
-# --- IDEs Y EDITORES ---
-# Ignora configuraciones personales de tu editor de código
+# --- IDE ---
 .vscode/
 .idea/
 *.swp
-*.patch
-*.diff
 
-# --- TEMPORALES DE COMPILACIÓN ---
-# Si decides usar carpetas de salida en el futuro
+# --- BUILD ---
 dist/
 build/
 .cache/
-
-# --- VERCEL SPECIFIC ---
-.vercel
 .next
 out/
 
-# --- MISCELÁNEOS ---
-# Si usas el comando 'vercel env pull' se genera este archivo temporal
-.env.*.local
-.env*.local
+# --- SEGURIDAD ---
+*.pem
+*.key
+*.crt
+
+# --- API KEY LOCAL ---
+/api/config/apikey.mjs

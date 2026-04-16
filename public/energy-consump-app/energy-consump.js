@@ -1,99 +1,99 @@
 /**
- * File enrgy-consump.js
- * Frontend Logic for Energy Consumption App
- * Hub: git-hub-api-vercel
+ * energy-consump.js
+ * Frontend Logic (Production Ready - Vercel)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form'); // Asegúrate de envolver tu tabla en un <form>
-    
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Evita que la página se recargue
 
-            // 1. Captura de datos desde la tabla
-            const formData = new FormData(form);
-            const data = {
-                stream: formData.get('stream'),
-                tension: formData.get('tension'),
-                intensity: formData.get('intensity'),
-                cosf: formData.get('cosf'),
-                efm: formData.get('efm'),
-                potnom: formData.get('potnom'),
-                efm1: formData.get('efm1')
-            };
+    const form = document.getElementById('energyForm');
 
-            // 2. Validación básica en el cliente
-            if (data.stream === "Make your selection" && (!data.potnom || data.potnom == 0)) {
-                alert("Please select the motor type or enter the rated power..");
-                return;
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 🔹 1. Captura de datos
+        const formData = new FormData(form);
+
+        const data = {
+            stream: formData.get('stream'),
+            tension: parseFloat(formData.get('tension')) || 0,
+            intensity: parseFloat(formData.get('intensity')) || 0,
+            cosf: parseFloat(formData.get('cosf')) || 0,
+            efm: parseFloat(formData.get('efm')) || 0,
+            potnom: parseFloat(formData.get('potnom')) || 0,
+            efm1: parseFloat(formData.get('efm1')) || 0
+        };
+
+        // 🔹 2. Validación
+        if (!data.stream && data.potnom === 0) {
+            alert("Select motor type or enter nominal power.");
+            return;
+        }
+
+        try {
+            // 🔥 3. Endpoint RELATIVO (clave en Vercel)
+            const response = await fetch('/api/serv-energy-consump', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP Error: ${response.status}`);
             }
 
-            try {
-                // 3. Envío al Backend (Endpoint Serverless)
-                //Solucion multi entornos (local - produccion nube)
-                const API_URL = location.hostname === "localhost"
-                    ? "https://127.0.0.1:3002"
-                    : "";
-                const response = await fetch(`${API_URL}/api/serv-energy-consump`, { // URL Actualizada
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                console.log("L45 = Método enviado:", "POST");
-                console.log("L46 = URL:", `${API_URL}/api/serv-energy-consump`);
-                console.log("L47 = Payload:", data);
-                if (!response.ok) throw new Error('Error en la comunicación con la API');
+            const result = await response.json();
 
-                const result = await response.json();
+            // 🔹 4. Render
+            displayResults(result);
 
-                // 4. Procesamiento de resultados
-                displayResults(result);
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert("Hubo un problema al calcular los datos. Intente de nuevo.");
-            }
-        });
-    }
+        } catch (error) {
+            console.error('API Error:', error);
+            alert("Error calculating data. Please try again.");
+        }
+    });
 });
 
+
 /**
- * Función para renderizar los resultados en el "Panel de Salida"
+ * Render de resultados
  */
 function displayResults(res) {
-    console.log("Sincronizando Panel con:", res);
 
-    // Mapeo exhaustivo de los resultados del backend -> IDs del HTML
     const fields = {
-        'res_kWh_motor':          res.kWh_motor,
-        'res_kWh_primario':       res.kWh_primario,
-        'res_kWh_transf':         res.kWh_transf,
-        'res_kWh_eje':            res.kWh_eje,
-        'res_kgCO2_primario':     res.kgCO2_primario,
-        'res_kgCO2_eje':          res.kgCO2_eje,
-        'res_perdidas_motor':     res.perdidas_motor,
+        'res_kWh_motor': res.kWh_motor,
+        'res_kWh_primario': res.kWh_primario,
+        'res_kWh_transf': res.kWh_transf,
+        'res_kWh_eje': res.kWh_eje,
+        'res_kgCO2_primario': res.kgCO2_primario,
+        'res_kgCO2_eje': res.kgCO2_eje,
+        'res_perdidas_motor': res.perdidas_motor,
         'res_perdidas_transf_pct': res.perdidas_transf_pct,
-        'res_eficiencia_usada':   res.eficiencia_usada,
-        'res_pct_final':          res.pct_final
+        'res_eficiencia_usada': res.eficiencia_usada,
+        'res_pct_final': res.pct_final
     };
 
-    // Actualización masiva del DOM
     for (const [id, value] of Object.entries(fields)) {
-        const element = document.getElementById(id);
-        if (element) {
-            // Animación simple de actualización de texto
-            element.textContent = value;
-        } else {
-            console.warn(`Advertencia: El elemento ID ${id} no se encontró en el HTML.`);
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = formatNumber(value);
         }
     }
 
-    // Scroll suave al panel de resultados
-    const panelResultados = document.getElementById('panel-resultados');
-    if (panelResultados) {
-        panelResultados.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Scroll suave
+    document.getElementById('panel-resultados')
+        ?.scrollIntoView({ behavior: 'smooth' });
+}
+
+
+/**
+ * Formateo numérico seguro
+ */
+function formatNumber(value) {
+    return (typeof value === "number")
+        ? value.toFixed(2)
+        : value ?? "0.00";
 }

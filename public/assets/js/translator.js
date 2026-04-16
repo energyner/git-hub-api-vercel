@@ -82,46 +82,33 @@ async function loadLanguageSelector(){
 /*------------------------------------------
 2️⃣ Traducción en lote
 ------------------------------------------*/
-async function translateBatch(texts,lang){
+async function translateBatch(texts, lang){
 
-  console.log("2.45- Traduciendo lote:",texts.length,"→",lang);
-
-  if(texts.length === 0){
-    console.warn("2.47- ⚠️ Sin textos");
-    return {};
-  }
+  if(texts.length === 0) return {};
 
   try{
-    // 🔍 DETECCIÓN DINÁMICA DE ENTORNO
-    // 1. Detección de entorno local real
-        const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
-    // 2. Construcción de URL según entorno
-        if (isLocal) {
-        API_URL = "http://127.0.0.1:3002/api/energy-consump";
-        } else {
-        API_URL = "https://git-hub-api-vercel.vercel.app/api/traslate.mjs";
-        }
-
-        console.log(`🚀 Enviando petición a: ${API_URL}`);                // Ruta para Vercel en producción
-
-    const res = await fetch(API_URL, {
+    const response = await fetch('/api/translate', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ texts, lang })
     });
 
-    console.log("2.56- HTTPS:", res.status);
-    // Validación de seguridad antes de procesar JSON
-    if (!res.ok) {
-        console.error(`2.58- Error en servidor: ${res.status}`);
-        return {};
+    if (!response.ok){
+      console.error("Translate API error:", response.status);
+      return {};
     }
-    const data = await res.json();
 
-    console.log("2.61- Backend keys:", Object.keys(data).length);
+    let data;
 
-    // 🔥 guardar en cache
+    try{
+      data = await response.json();
+    }catch(e){
+      console.error("Invalid JSON from API");
+      return {};
+    }
+
+    // 🔥 cache frontend
     Object.keys(data).forEach(k=>{
       window.translationCache[k] = data[k];
     });
@@ -130,12 +117,10 @@ async function translateBatch(texts,lang){
 
   }catch(error){
 
-    console.error("2.67- Error:",error);
-
+    console.error("Network error:", error);
     return {};
 
   }
-
 }
 
 /*------------------------------------------
@@ -143,121 +128,130 @@ async function translateBatch(texts,lang){
 ------------------------------------------*/
 async function translatePage(lang){
 
-  if(translating){
-    console.warn("3.70- ⚠️ En curso");
-    return;
-  }
-
-  console.log("3.78 - Traduciendo →",lang);
+  if(translating) return;
 
   translating = true;
   currentLang = lang;
 
-  const walker = document.createTreeWalker(
-    document.body,
-    NodeFilter.SHOW_TEXT,
-    null,
-    false
-  );
+  try{
 
-  const nodes = [];
-  const textSet = new Set();
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
 
-  let node;
-  let scanned = 0;
-  let skipped = 0;
+    const nodes = [];
+    const textSet = new Set();
 
-  const ignorePatterns = [
-    /^\d+(\.\d+)+/,
-    /^[\d\s\.\-\=\:\|]+$/,
-    /^[A-Z0-9_\-]+$/
-  ];
+    let node;
 
-  while((node = walker.nextNode())){
+    const ignorePatterns = [
+      /^\d+(\.\d+)+/,
+      /^[\d\s\.\-\=\:\|]+$/,
+      /^[A-Z0-9_\-]+$/
+    ];
 
-    scanned++;
+    while((node = walker.nextNode())){
 
-    const parentNode = node.parentNode;
-    if(!parentNode) continue;
+      const parentNode = node.parentNode;
+      if(!parentNode) continue;
 
-    const raw = node.nodeValue;
-    if(!raw || !raw.trim()) continue;
+      const raw = node.nodeValue;
+      if(!raw || !raw.trim()) continue;
 
-    const parentTag = parentNode.tagName;
+      const parentTag = parentNode.tagName;
 
-    if(
-      parentTag === "SCRIPT" ||
-      parentTag === "STYLE" ||
-      parentTag === "CODE" ||
-      parentTag === "PRE" ||
-      parentTag === "INPUT" ||
-      parentTag === "TEXTAREA" ||
-      parentTag === "SELECT"
-    ) continue;
+      if(
+        parentTag === "SCRIPT" ||
+        parentTag === "STYLE" ||
+        parentTag === "CODE" ||
+        parentTag === "PRE" ||
+        parentTag === "INPUT" ||
+        parentTag === "TEXTAREA" ||
+        parentTag === "SELECT"
+      ) continue;
 
-    if(parentNode.closest("#idioms-container")) continue;
+      if(parentNode.closest("#idioms-container")) continue;
+      if(parentNode.closest("form")) continue;
 
-    const text = raw.trim();
+      const text = raw.trim();
 
-    if(text.length < 3){ skipped++; continue; }
-    if(ignorePatterns.some(r=>r.test(text))){ skipped++; continue; }
+      if(text.length < 3) continue;
+      if(ignorePatterns.some(r=>r.test(text))) continue;
 
-    if(!node._originalText){
-      node._originalText = text;
+      if(!node._originalText){
+        node._originalText = text;
+      }
+
+      const original = node._originalText;
+      const normalized = original.trim().replace(/\s+/g," ");
+
+      // 🔥 restaurar idioma base
+      if(lang === baseLang){
+        node.nodeValue = original;
+        node._translatedLang = lang;
+        continue;
+      }
+
+      if(node._translatedLang === lang) continue;
+
+      nodes.push({
+        node,
+        text: normalized
+      });
+
+      // 🔥 solo agregar si NO está en cache
+      if(!window.translationCache[normalized]){
+        textSet.add(normalized);
+      }
+
     }
 
-    const original = node._originalText;
+    const texts = Array.from(textSet);
 
-    // 🔥 normalización (CLAVE)
-    const normalized = original.trim().replace(/\s+/g," ");
+    let translations = {};
 
-    if(node._translatedLang === lang){
-      skipped++;
-      continue;
+    // 🔥 solo llamar API si hay textos nuevos
+    if(texts.length > 0){
+      translations = await translateBatch(texts, lang);
     }
 
-    if(lang === baseLang){
-      node.nodeValue = original;
-      node._translatedLang = lang;
-      continue;
-    }
+    let applied = 0;
 
-    nodes.push({
-      node,
-      text: normalized
+    nodes.forEach(item => {
+
+      const translated =
+        translations[item.text] ||
+        window.translationCache[item.text];
+
+      if(translated){
+        item.node.nodeValue = translated;
+        item.node._translatedLang = lang;
+        applied++;
+      }
+
     });
 
-    textSet.add(normalized);
+    // 🔥 evitar NaN
+    const coverage = texts.length > 0
+      ? ((applied / texts.length) * 100).toFixed(1)
+      : "100";
+
+    console.log(`🌐 Traducción aplicada: ${applied}`);
+    console.log(`📊 Cobertura: ${coverage}%`);
+
+  }catch(error){
+
+    console.error("translatePage error:", error);
+
+  }finally{
+
+    // 🔥 SIEMPRE liberar
+    translating = false;
 
   }
-
-  console.log("3.110- Escaneados:", scanned);
-  console.log("3.115- Ignorados:", skipped);
-  console.log("3.120- Filtrados:", textSet.size);
-
-  const texts = Array.from(textSet);
-
-  const translations = await translateBatch(texts, lang);
-
-  let applied = 0;
-
-  nodes.forEach(item => {
-
-    let translated = translations[item.text] || window.translationCache[item.text];
-
-    if(translated){
-      item.node.nodeValue = translated;
-      item.node._translatedLang = lang;
-      applied++;
-    }
-
-  });
-
-  translating = false;
-
-  console.log("3.190- Aplicadas:", applied);
-  console.log("3.195- Cobertura:", ((applied/texts.length)*100).toFixed(1)+"%");
-  console.log("3.200- Finalizado");
 
 }
 

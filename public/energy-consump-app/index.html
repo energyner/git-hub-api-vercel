@@ -43,79 +43,72 @@
     <h3 class="subcapitulo1">API - Form - Electric Consumption Calculator for Single-Phase and Three-Phase Electric Motors</h3>
     <h3>The electrical work performed by an induction motor - Calculator. Processor Structure</h3>
    
-<form action ="./index.html" method="post"  >
+<form id="energyForm">
+
 <table class="energy-consump">
-    <tr class="row-header">
-        <td colspan="2">
-            <span class="PolitEscHeram"><strong>Electric Induction Motors</strong></span>
-        </td>
-    </tr>
-    
-    <tr class="row-neutral"> 
-        <td><strong>Parameter/ units</strong></td> 
-        <td><strong>Value</strong></td> 
-    </tr>
-    
-    <tr class="row-neutral">
-        <td colspan="2">
-        <strong>Form with two options:</strong><br />
-            a) Calculator for hourly energy consumption<br />
-            b) By entering the installed power
-        </td>
-    </tr>
-    
-    <tr class="row-section-a-title">
-        <tr class="row-neutral">
-            <td colspan="2">Calculate the hourly energy consumed (kWh)</td>
-        </tr>
-    <tr class="row-section-a">
-       <td>Motor, single or three-phase</td> 
-        <td class="cell-center"> 
-            <select name='stream' size="1"> 
-            <option selected="selected">Make u selection</option> 
-            <option value="1">single-phase</option> 
-            <option value="2">three-phase</option> 
-            </select> 
-        </td>
-    </tr>
-    <tr class="row-section-a"> 
-        <td>Electrical voltage ,volt</td> 
-        <td class="cell-center"><input type="text" name='tension' value="0" /></td> 
-    </tr> 
-    <tr class="row-section-a"> 
-        <td>Intensity, amp</td> 
-        <td class="cell-center"><input type="text" name='intensity' value="0" /></td> 
-    </tr>
-    <tr class="row-section-a"> 
-        <td>Power factor, cos f</td> 
-        <td class="cell-center"><input type="text" name='cosf' value="0" /></td> 
-    </tr> 
-    <tr class="row-section-a"> 
-        <td>Motor efficiency, (efm), both for one</td> 
-        <td class="cell-center"><input type="text" name='efm' value="0" /></td> 
-    </tr>
-    
-   <tr class="row-section-b-title"> 
-        <td colspan="2">Or enter the installed power</td> 
-    </tr> 
-    <tr class="row-section-b"> 
-        <td>Nominal power, kWe_real</td> 
-        <td class="cell-center"><input type="text" name='potnom' value="0" /></td> 
-    </tr> 
-    <tr class="row-section-b"> 
-        <td>Motor efficiency, (efm), both for one</td> 
-        <td class="cell-center"><input type="text" name='efm1' value="0" /></td> 
-    </tr>
-    
-    <tr class="row-neutral"> 
-        <td class="cell-center">Rectify your data</td> 
-        <td class="cell-center"><input name="reset" type="reset" value="delete" /></td> 
-    </tr> 
-    <tr class="row-footer"> 
-        <td><strong>CALCULATE</strong></td> 
-        <td class="cell-center"><input name="submit" type="submit" class="btn-submit" value="submit" /></td> 
-    </tr>
+
+<tr class="row-section-a">
+<td>Motor, single or three-phase</td> 
+<td class="cell-center"> 
+<select name="stream">
+<option value="" selected disabled>Make a selection</option> 
+<option value="1">single-phase</option> 
+<option value="2">three-phase</option> 
+</select> 
+</td>
+</tr>
+
+<tr class="row-section-a"> 
+<td>Electrical voltage ,volt</td> 
+<td class="cell-center">
+<input type="number" step="any" name="tension" value="0" />
+</td> 
+</tr> 
+
+<tr class="row-section-a"> 
+<td>Intensity, amp</td> 
+<td class="cell-center">
+<input type="number" step="any" name="intensity" value="0" />
+</td> 
+</tr>
+
+<tr class="row-section-a"> 
+<td>Power factor, cos f</td> 
+<td class="cell-center">
+<input type="number" step="any" name="cosf" value="0" />
+</td> 
+</tr> 
+
+<tr class="row-section-a"> 
+<td>Motor efficiency (efm)</td> 
+<td class="cell-center">
+<input type="number" step="any" name="efm" value="0" />
+</td> 
+</tr>
+
+<tr class="row-section-b"> 
+<td>Nominal power, kWe_real</td> 
+<td class="cell-center">
+<input type="number" step="any" name="potnom" value="0" />
+</td> 
+</tr> 
+
+<tr class="row-section-b"> 
+<td>Motor efficiency (efm)</td> 
+<td class="cell-center">
+<input type="number" step="any" name="efm1" value="0" />
+</td> 
+</tr>
+
+<tr class="row-footer"> 
+<td><strong>CALCULATE</strong></td> 
+<td class="cell-center">
+<input type="submit" class="btn-submit" value="Submit" />
+</td> 
+</tr>
+
 </table>
+
 </form>
 
 
@@ -244,7 +237,7 @@
     <script src="../assets/js/menu_hamburger.js"></script>
     <script src="../assets/js/load_all_home.js"></script>
     <script src="../assets/js/translator.js"></script>     
-<script src="../assets/js/energy-consump.js"  >/* incluye paginas exteriores*/</script>  
+<script src="./energy-consump.js"  >/* incluye paginas exteriores*/</script>  
 
 
 </body>
