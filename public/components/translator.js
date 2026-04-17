@@ -197,6 +197,7 @@ async function translatePage(lang){
       if(text.length < 3) continue;
       if(ignorePatterns.some(r=>r.test(text))) continue;
 
+      // 🔥 guardar original una sola vez
       if(!node._originalText){
         node._originalText = text;
       }
@@ -211,26 +212,30 @@ async function translatePage(lang){
         continue;
       }
 
+      // 🔥 evitar reprocesar mismo idioma
       if(node._translatedLang === lang) continue;
+
+      const key = `${lang}|${normalized}`;
 
       nodes.push({
         node,
-        text: normalized
+        text: normalized,
+        key
       });
 
-      // 🔥 solo agregar si NO está en cache
-      if(!window.translationCache[normalized]){
+      // 🔥 SOLO enviar a API si NO está en cache por idioma
+      if(!window.translationCache[key]){
         textSet.add(normalized);
       }
 
     }
 
-   const texts = Array.from(textSet);
+    const texts = Array.from(textSet);
 
     console.log("3.200 📦 Texts a traducir:", texts.slice(0,5));
     console.log("3.201 📊 Total textos:", texts.length);
 
-    let translations = {}; // ✅ SOLO UNA VEZ
+    let translations = {};
 
     if(texts.length > 0){
       console.log("3.210 🚀 Llamando API...");
@@ -241,25 +246,30 @@ async function translatePage(lang){
 
     nodes.forEach(item => {
 
+      const key = `${lang}|${item.text}`;
+
       const translated =
         translations[item.text] ||
-        window.translationCache[item.text];
+        window.translationCache[key];
 
       if(translated){
         item.node.nodeValue = translated;
         item.node._translatedLang = lang;
+
+        // 🔥 guardar en cache por idioma
+        window.translationCache[key] = translated;
+
         applied++;
       }
 
     });
 
-    // 🔥 evitar NaN
-    const coverage = texts.length > 0
-      ? ((applied / texts.length) * 100).toFixed(1)
+    const coverage = nodes.length > 0
+      ? ((applied / nodes.length) * 100).toFixed(1)
       : "100";
 
     console.log(`🌐 Traducción aplicada: ${applied}`);
-    console.log(`📊 Cobertura: ${coverage}%`);
+    console.log(`📊 Cobertura real: ${coverage}%`);
 
   }catch(error){
 
@@ -267,7 +277,6 @@ async function translatePage(lang){
 
   }finally{
 
-    // 🔥 SIEMPRE liberar
     translating = false;
 
   }
