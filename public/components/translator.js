@@ -303,6 +303,9 @@ async function translateBatch(texts, lang){
 /*------------------------------------------
 3️⃣ Traducir DOM (REFACTORIZADA + CORREGIDA)
 ------------------------------------------*/
+/*------------------------------------------
+3️⃣ Traducir DOM (VERSIÓN DEBUG)
+------------------------------------------*/
 async function translatePage(lang) {
 
   if (translating) return;
@@ -319,9 +322,10 @@ async function translatePage(lang) {
       false
     );
 
-    const nodesToTranslate = [];     // Nodos que necesitan traducción
-    const uniqueTexts = new Set();    // Textos únicos para enviar a la API
+    const nodesToTranslate = [];
+    const uniqueTexts = new Set();
     let node;
+    let nodeIndex = 0;
 
     const ignorePatterns = [
       /^\d+(\.\d+)+/,
@@ -330,7 +334,7 @@ async function translatePage(lang) {
     ];
 
     // ============================================================
-    // PRIMERA PASADA: Recopilar y preparar nodos
+    // PRIMERA PASADA: Recopilar y preparar nodos (CON DEBUG)
     // ============================================================
     while ((node = walker.nextNode())) {
 
@@ -361,6 +365,28 @@ async function translatePage(lang) {
       if (text.length < 3) continue;
       if (ignorePatterns.some(r => r.test(text))) continue;
 
+      // 🔥 DEBUG: Identificar links del menú hamburguesa
+      const isHamburgerMenu = parentNode.closest('nav') || 
+                               parentNode.closest('.menu') || 
+                               parentNode.closest('.hamburger') ||
+                               parentNode.closest('[class*="menu"]') ||
+                               parentNode.closest('[class*="nav"]');
+      
+      const isTargetLink = text.includes("Home") || 
+                           text.includes("Training") || 
+                           text.includes("Books") || 
+                           text.includes("Contact");
+
+      if (isHamburgerMenu && isTargetLink) {
+        console.log(`🔍 [DEBUG] Nodo menú encontrado:`, {
+          texto: text,
+          parentTag: parentTag,
+          parentClasses: parentNode.className,
+          parentId: parentNode.id,
+          parentHTML: parentNode.outerHTML?.substring(0, 200)
+        });
+      }
+
       // -----------------------------------------------------------------
       // 1. Guardar el texto original si aún no existe
       // -----------------------------------------------------------------
@@ -373,7 +399,7 @@ async function translatePage(lang) {
       // -----------------------------------------------------------------
       if (node._translatedLang !== lang) {
         node.nodeValue = node._originalText;
-        node._translatedLang = null;  // Limpiar estado anterior
+        node._translatedLang = null;
       }
 
       // -----------------------------------------------------------------
@@ -405,6 +431,7 @@ async function translatePage(lang) {
       if (window.translationCache[cacheKey]) {
         node.nodeValue = window.translationCache[cacheKey];
         node._translatedLang = lang;
+        console.log(`✅ [CACHE] "${normalized}" → "${window.translationCache[cacheKey]}"`);
         continue;
       }
 
@@ -414,11 +441,20 @@ async function translatePage(lang) {
       nodesToTranslate.push({
         node: node,
         originalText: normalized,
-        cacheKey: cacheKey
+        cacheKey: cacheKey,
+        debugInfo: isHamburgerMenu && isTargetLink ? text : null
       });
 
       uniqueTexts.add(normalized);
+      nodeIndex++;
     }
+
+    // ============================================================
+    // MOSTAR ESTADÍSTICAS DE NODOS DEL MENÚ
+    // ============================================================
+    const menuNodes = nodesToTranslate.filter(n => n.debugInfo);
+    console.log(`🍔 Nodos del menú encontrados: ${menuNodes.length}`);
+    menuNodes.forEach(n => console.log(`   - "${n.debugInfo}"`));
 
     // ============================================================
     // SEGUNDA PASADA: Traducir textos únicos vía API
@@ -433,6 +469,17 @@ async function translatePage(lang) {
     if (textsArray.length > 0) {
       console.log("3.210 🚀 Llamando API...");
       translations = await translateBatch(textsArray, lang);
+      
+      // 🔥 DEBUG: Verificar qué traducciones llegaron para el menú
+      console.log("📋 Traducciones recibidas para textos del menú:");
+      menuNodes.forEach(n => {
+        const translation = translations[n.originalText];
+        if (translation) {
+          console.log(`   ✅ "${n.originalText}" → "${translation}"`);
+        } else {
+          console.log(`   ❌ "${n.originalText}" → SIN TRADUCCIÓN`);
+        }
+      });
     }
 
     // ============================================================
@@ -442,7 +489,6 @@ async function translatePage(lang) {
 
     for (const item of nodesToTranslate) {
 
-      // Buscar traducción: primero en respuesta API, luego en cache
       const translatedText = 
         translations[item.originalText] || 
         window.translationCache[item.cacheKey];
@@ -450,14 +496,12 @@ async function translatePage(lang) {
       if (translatedText) {
         item.node.nodeValue = translatedText;
         item.node._translatedLang = lang;
-
-        // Guardar en cache para futuras ocasiones
         window.translationCache[item.cacheKey] = translatedText;
-
         appliedCount++;
-      } else {
-        // Si no hay traducción, mantener texto original
-        console.warn(`⚠️ Sin traducción para: "${item.originalText}"`);
+      } else if (item.debugInfo) {
+        // 🔥 Esto es CRÍTICO: si un nodo del menú no tiene traducción
+        console.error(`❌ [CRÍTICO] Nodo menú sin traducción: "${item.originalText}"`);
+        console.log(`   Parent element:`, item.node.parentElement);
       }
     }
 
