@@ -142,14 +142,175 @@ async function translateBatch(texts, lang){
 /*------------------------------------------
 3️⃣ Traducir DOM (OPTIMIZADO + SEGURO)
 ------------------------------------------*/
-async function translatePage(lang){
+// async function translatePage(lang){
 
-  if(translating) return;
+//   if(translating) return;
+
+//   translating = true;
+//   currentLang = lang;
+
+//   try{
+
+//     const walker = document.createTreeWalker(
+//       document.body,
+//       NodeFilter.SHOW_TEXT,
+//       null,
+//       false
+//     );
+
+//     const nodes = [];
+//     const textSet = new Set();
+
+//     let node;
+
+//     const ignorePatterns = [
+//       /^\d+(\.\d+)+/,
+//       /^[\d\s\.\-\=\:\|]+$/,
+//       /^[A-Z0-9_\-]+$/
+//     ];
+
+//     while((node = walker.nextNode())){
+
+//       const parentNode = node.parentNode;
+//       if(!parentNode) continue;
+
+//       const raw = node.nodeValue;
+//       if(!raw || !raw.trim()) continue;
+
+//       const parentTag = parentNode.tagName;
+
+//       if(
+//         parentTag === "SCRIPT" ||
+//         parentTag === "STYLE" ||
+//         parentTag === "CODE" ||
+//         parentTag === "PRE" ||
+//         parentTag === "INPUT" ||
+//         parentTag === "TEXTAREA" ||
+//         parentTag === "SELECT"
+//       ) continue;
+
+//       if(parentNode.closest("#idioms-container")) continue;
+//       if(parentNode.closest("form")) continue;
+
+//       const text = raw.trim();
+
+//       if(text.length < 3) continue;
+//       if(ignorePatterns.some(r=>r.test(text))) continue;
+    
+//       // 🔥 guardar SOLO si es idioma base
+//     if(!node._originalText){
+//         if(currentLang === baseLang){
+//           node._originalText = node.nodeValue;
+//         } else {
+//         // fallback: intentar recuperar texto limpio
+//         node._originalText = node.nodeValue;
+//         }
+//       }
+
+//       // 🔥 restaurar siempre antes de traducir
+//     if(node._translatedLang !== lang){
+//         node.nodeValue = node._originalText;
+//       }
+
+//       const original = node._originalText;
+//       const normalized = original.trim().replace(/\s+/g," ");
+
+//       // 🔥 restaurar idioma base
+//       if(lang === baseLang){
+//         node.nodeValue = original;
+//         node._translatedLang = lang;
+//         continue;
+//       }
+
+//       // 🔥 evitar reprocesar mismo idioma
+//       if(node._translatedLang === lang && node.nodeValue !== node._originalText){
+//       continue;
+//       }
+
+//       const key = `${lang}|${normalized}`;
+
+//       nodes.push({
+//         node,
+//         text: normalized,
+//         key
+//       });
+
+//       // 🔥 SOLO enviar a API si NO está en cache por idioma
+//       // if(!window.translationCache[key]){
+//       //   textSet.add(normalized);
+//       // }
+// // 🔥 SI EL TEXTO ACTUAL ≠ ORIGINAL → NECESITA TRADUCCIÓN
+//       if(node.nodeValue === node._originalText){
+//         textSet.add(normalized);
+//       }
+
+
+//     }
+
+//     const texts = Array.from(textSet);
+
+//     console.log("3.200 📦 Texts a traducir:", texts.slice(0,5));
+//     console.log("3.201 📊 Total textos:", texts.length);
+
+//     let translations = {};
+
+//     if(texts.length > 0){
+//       console.log("3.210 🚀 Llamando API...");
+//       translations = await translateBatch(texts, lang);
+//     }
+
+//     let applied = 0;
+
+//     nodes.forEach(item => {
+
+//       const key = `${lang}|${item.text}`;
+
+//       const translated =
+//         translations[item.text] ||
+//         window.translationCache[key];
+
+//       if(translated){
+//         item.node.nodeValue = translated;
+//         item.node._translatedLang = lang;
+
+//         // 🔥 guardar en cache por idioma
+//         window.translationCache[key] = translated;
+
+//         applied++;
+//       }
+
+//     });
+
+//     const coverage = nodes.length > 0
+//       ? ((applied / nodes.length) * 100).toFixed(1)
+//       : "100";
+
+//     console.log(`🌐 Traducción aplicada: ${applied}`);
+//     console.log(`📊 Cobertura real: ${coverage}%`);
+
+//   }catch(error){
+
+//     console.error("translatePage error:", error);
+
+//   }finally{
+
+//     translating = false;
+
+//   }
+
+// }
+
+/*------------------------------------------
+3️⃣ Traducir DOM (REFACTORIZADA + CORREGIDA)
+------------------------------------------*/
+async function translatePage(lang) {
+
+  if (translating) return;
 
   translating = true;
   currentLang = lang;
 
-  try{
+  try {
 
     const walker = document.createTreeWalker(
       document.body,
@@ -158,9 +319,8 @@ async function translatePage(lang){
       false
     );
 
-    const nodes = [];
-    const textSet = new Set();
-
+    const nodesToTranslate = [];     // Nodos que necesitan traducción
+    const uniqueTexts = new Set();    // Textos únicos para enviar a la API
     let node;
 
     const ignorePatterns = [
@@ -169,17 +329,21 @@ async function translatePage(lang){
       /^[A-Z0-9_\-]+$/
     ];
 
-    while((node = walker.nextNode())){
+    // ============================================================
+    // PRIMERA PASADA: Recopilar y preparar nodos
+    // ============================================================
+    while ((node = walker.nextNode())) {
 
       const parentNode = node.parentNode;
-      if(!parentNode) continue;
+      if (!parentNode) continue;
 
       const raw = node.nodeValue;
-      if(!raw || !raw.trim()) continue;
+      if (!raw || !raw.trim()) continue;
 
       const parentTag = parentNode.tagName;
 
-      if(
+      // Excluir etiquetas que no deben traducirse
+      if (
         parentTag === "SCRIPT" ||
         parentTag === "STYLE" ||
         parentTag === "CODE" ||
@@ -189,116 +353,132 @@ async function translatePage(lang){
         parentTag === "SELECT"
       ) continue;
 
-      if(parentNode.closest("#idioms-container")) continue;
-      if(parentNode.closest("form")) continue;
+      // Excluir áreas especiales
+      if (parentNode.closest("#idioms-container")) continue;
+      if (parentNode.closest("form")) continue;
 
       const text = raw.trim();
+      if (text.length < 3) continue;
+      if (ignorePatterns.some(r => r.test(text))) continue;
 
-      if(text.length < 3) continue;
-      if(ignorePatterns.some(r=>r.test(text))) continue;
-    
-      // 🔥 guardar SOLO si es idioma base
-    if(!node._originalText){
-        if(currentLang === baseLang){
-          node._originalText = node.nodeValue;
-        } else {
-        // fallback: intentar recuperar texto limpio
+      // -----------------------------------------------------------------
+      // 1. Guardar el texto original si aún no existe
+      // -----------------------------------------------------------------
+      if (!node._originalText) {
         node._originalText = node.nodeValue;
-        }
       }
 
-      // 🔥 restaurar siempre antes de traducir
-    if(node._translatedLang !== lang){
+      // -----------------------------------------------------------------
+      // 2. Si cambió el idioma, restaurar el texto original
+      // -----------------------------------------------------------------
+      if (node._translatedLang !== lang) {
         node.nodeValue = node._originalText;
+        node._translatedLang = null;  // Limpiar estado anterior
       }
 
-      const original = node._originalText;
-      const normalized = original.trim().replace(/\s+/g," ");
-
-      // 🔥 restaurar idioma base
-      if(lang === baseLang){
-        node.nodeValue = original;
+      // -----------------------------------------------------------------
+      // 3. Si es el idioma base, restaurar original y saltar
+      // -----------------------------------------------------------------
+      if (lang === baseLang) {
+        node.nodeValue = node._originalText;
         node._translatedLang = lang;
         continue;
       }
 
-      // 🔥 evitar reprocesar mismo idioma
-      if(node._translatedLang === lang && node.nodeValue !== node._originalText){
-      continue;
+      // -----------------------------------------------------------------
+      // 4. Si ya está traducido a este idioma, saltar
+      // -----------------------------------------------------------------
+      if (node._translatedLang === lang) {
+        continue;
       }
 
-      const key = `${lang}|${normalized}`;
+      // -----------------------------------------------------------------
+      // 5. Normalizar texto para cache/búsqueda
+      // -----------------------------------------------------------------
+      const original = node._originalText;
+      const normalized = original.trim().replace(/\s+/g, " ");
+      const cacheKey = `${lang}|${normalized}`;
 
-      nodes.push({
-        node,
-        text: normalized,
-        key
+      // -----------------------------------------------------------------
+      // 6. Verificar cache ANTES de agregar a la cola
+      // -----------------------------------------------------------------
+      if (window.translationCache[cacheKey]) {
+        node.nodeValue = window.translationCache[cacheKey];
+        node._translatedLang = lang;
+        continue;
+      }
+
+      // -----------------------------------------------------------------
+      // 7. Si llegamos aquí, necesita traducción
+      // -----------------------------------------------------------------
+      nodesToTranslate.push({
+        node: node,
+        originalText: normalized,
+        cacheKey: cacheKey
       });
 
-      // 🔥 SOLO enviar a API si NO está en cache por idioma
-      // if(!window.translationCache[key]){
-      //   textSet.add(normalized);
-      // }
-// 🔥 SI EL TEXTO ACTUAL ≠ ORIGINAL → NECESITA TRADUCCIÓN
-      if(node.nodeValue === node._originalText){
-        textSet.add(normalized);
-      }
-
-
+      uniqueTexts.add(normalized);
     }
 
-    const texts = Array.from(textSet);
+    // ============================================================
+    // SEGUNDA PASADA: Traducir textos únicos vía API
+    // ============================================================
+    const textsArray = Array.from(uniqueTexts);
 
-    console.log("3.200 📦 Texts a traducir:", texts.slice(0,5));
-    console.log("3.201 📊 Total textos:", texts.length);
+    console.log("3.200 📦 Textos únicos a traducir:", textsArray.slice(0, 5));
+    console.log("3.201 📊 Total textos únicos:", textsArray.length);
 
     let translations = {};
 
-    if(texts.length > 0){
+    if (textsArray.length > 0) {
       console.log("3.210 🚀 Llamando API...");
-      translations = await translateBatch(texts, lang);
+      translations = await translateBatch(textsArray, lang);
     }
 
-    let applied = 0;
+    // ============================================================
+    // TERCERA PASADA: Aplicar traducciones a los nodos
+    // ============================================================
+    let appliedCount = 0;
 
-    nodes.forEach(item => {
+    for (const item of nodesToTranslate) {
 
-      const key = `${lang}|${item.text}`;
+      // Buscar traducción: primero en respuesta API, luego en cache
+      const translatedText = 
+        translations[item.originalText] || 
+        window.translationCache[item.cacheKey];
 
-      const translated =
-        translations[item.text] ||
-        window.translationCache[key];
-
-      if(translated){
-        item.node.nodeValue = translated;
+      if (translatedText) {
+        item.node.nodeValue = translatedText;
         item.node._translatedLang = lang;
 
-        // 🔥 guardar en cache por idioma
-        window.translationCache[key] = translated;
+        // Guardar en cache para futuras ocasiones
+        window.translationCache[item.cacheKey] = translatedText;
 
-        applied++;
+        appliedCount++;
+      } else {
+        // Si no hay traducción, mantener texto original
+        console.warn(`⚠️ Sin traducción para: "${item.originalText}"`);
       }
+    }
 
-    });
-
-    const coverage = nodes.length > 0
-      ? ((applied / nodes.length) * 100).toFixed(1)
+    // ============================================================
+    // REPORTE FINAL
+    // ============================================================
+    const coverage = nodesToTranslate.length > 0
+      ? ((appliedCount / nodesToTranslate.length) * 100).toFixed(1)
       : "100";
 
-    console.log(`🌐 Traducción aplicada: ${applied}`);
+    console.log(`🌐 Traducción aplicada: ${appliedCount} de ${nodesToTranslate.length}`);
     console.log(`📊 Cobertura real: ${coverage}%`);
 
-  }catch(error){
-
-    console.error("translatePage error:", error);
-
-  }finally{
-
+  } catch (error) {
+    console.error("❌ translatePage error:", error);
+  } finally {
     translating = false;
-
   }
-
 }
+
+
 
 /*------------------------------------------
 4️⃣ Configurar selector
