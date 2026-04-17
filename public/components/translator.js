@@ -196,11 +196,21 @@ async function translatePage(lang){
 
       if(text.length < 3) continue;
       if(ignorePatterns.some(r=>r.test(text))) continue;
-
-      // 🔥 guardar original una sola vez
+    
+      // 🔥 guardar SOLO si es idioma base
     if(!node._originalText){
-    node._originalText = node.nodeValue; // 🔥 SIEMPRE ORIGINAL REAL
-    }
+        if(currentLang === baseLang){
+          node._originalText = node.nodeValue;
+        } else {
+        // fallback: intentar recuperar texto limpio
+        node._originalText = node.nodeValue;
+        }
+      }
+
+      // 🔥 restaurar siempre antes de traducir
+    if(node._translatedLang !== lang){
+        node.nodeValue = node._originalText;
+      }
 
       const original = node._originalText;
       const normalized = original.trim().replace(/\s+/g," ");
@@ -226,9 +236,14 @@ async function translatePage(lang){
       });
 
       // 🔥 SOLO enviar a API si NO está en cache por idioma
-      if(!window.translationCache[key]){
+      // if(!window.translationCache[key]){
+      //   textSet.add(normalized);
+      // }
+// 🔥 SI EL TEXTO ACTUAL ≠ ORIGINAL → NECESITA TRADUCCIÓN
+      if(node.nodeValue === node._originalText){
         textSet.add(normalized);
       }
+
 
     }
 
