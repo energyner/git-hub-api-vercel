@@ -198,9 +198,9 @@ async function translatePage(lang){
       if(ignorePatterns.some(r=>r.test(text))) continue;
 
       // 🔥 guardar original una sola vez
-      if(!node._originalText){
-        node._originalText = text;
-      }
+    if(!node._originalText){
+    node._originalText = node.nodeValue; // 🔥 SIEMPRE ORIGINAL REAL
+    }
 
       const original = node._originalText;
       const normalized = original.trim().replace(/\s+/g," ");
@@ -213,7 +213,9 @@ async function translatePage(lang){
       }
 
       // 🔥 evitar reprocesar mismo idioma
-      if(node._translatedLang === lang) continue;
+      if(node._translatedLang === lang && node.nodeValue !== node._originalText){
+      continue;
+      }
 
       const key = `${lang}|${normalized}`;
 
