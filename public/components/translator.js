@@ -301,10 +301,7 @@ async function translateBatch(texts, lang){
 // }
 
 /*------------------------------------------
-3️⃣ Traducir DOM (REFACTORIZADA + CORREGIDA)
-------------------------------------------*/
-/*------------------------------------------
-3️⃣ Traducir DOM (VERSIÓN DEBUG)
+3️⃣ Traducir DOM (VERSIÓN CORREGIDA)
 ------------------------------------------*/
 async function translatePage(lang) {
 
@@ -325,7 +322,6 @@ async function translatePage(lang) {
     const nodesToTranslate = [];
     const uniqueTexts = new Set();
     let node;
-    let nodeIndex = 0;
 
     const ignorePatterns = [
       /^\d+(\.\d+)+/,
@@ -334,7 +330,7 @@ async function translatePage(lang) {
     ];
 
     // ============================================================
-    // PRIMERA PASADA: Recopilar y preparar nodos (CON DEBUG)
+    // PRIMERA PASADA: Recopilar y preparar nodos
     // ============================================================
     while ((node = walker.nextNode())) {
 
@@ -361,41 +357,41 @@ async function translatePage(lang) {
       if (parentNode.closest("#idioms-container")) continue;
       if (parentNode.closest("form")) continue;
 
-      const text = raw.trim();
-      if (text.length < 3) continue;
-      if (ignorePatterns.some(r => r.test(text))) continue;
-
-      // 🔥 DEBUG: Identificar links del menú hamburguesa
-      const isHamburgerMenu = parentNode.closest('nav') || 
-                               parentNode.closest('.menu') || 
-                               parentNode.closest('.hamburger') ||
-                               parentNode.closest('[class*="menu"]') ||
-                               parentNode.closest('[class*="nav"]');
-      
-      const isTargetLink = text.includes("Home") || 
-                           text.includes("Training") || 
-                           text.includes("Books") || 
-                           text.includes("Contact");
-
-      if (isHamburgerMenu && isTargetLink) {
-        console.log(`🔍 [DEBUG] Nodo menú encontrado:`, {
-          texto: text,
-          parentTag: parentTag,
-          parentClasses: parentNode.className,
-          parentId: parentNode.id,
-          parentHTML: parentNode.outerHTML?.substring(0, 200)
-        });
-      }
-
       // -----------------------------------------------------------------
-      // 1. Guardar el texto original si aún no existe
+      // 1. Guardar el texto original SIEMPRE en inglés (idioma base)
       // -----------------------------------------------------------------
       if (!node._originalText) {
         node._originalText = node.nodeValue;
       }
 
       // -----------------------------------------------------------------
-      // 2. Si cambió el idioma, restaurar el texto original
+      // 2. IMPORTANTE: Usar el texto ORIGINAL para identificar el menú
+      // -----------------------------------------------------------------
+      const originalText = node._originalText.trim();
+      const isHamburgerMenu = parentNode.closest('nav') || 
+                               parentNode.closest('.menu') || 
+                               parentNode.closest('.hamburger') ||
+                               parentNode.closest('[class*="menu"]') ||
+                               parentNode.closest('[class*="nav"]') ||
+                               parentNode.tagName === 'A'; // Links también
+      
+      // 🔥 CORREGIDO: Usar originalText en lugar de text
+      const isTargetLink = originalText.includes("Home") || 
+                           originalText.includes("Training") || 
+                           originalText.includes("Books") || 
+                           originalText.includes("Contact") ||
+                           originalText.includes("Learning Management System");
+
+      if (originalText.length < 3) continue;
+      if (ignorePatterns.some(r => r.test(originalText))) continue;
+
+      // Debug opcional
+      if (isHamburgerMenu && isTargetLink) {
+        console.log(`🔍 [DEBUG] Nodo menú encontrado: "${originalText}"`);
+      }
+
+      // -----------------------------------------------------------------
+      // 3. Si cambió el idioma, restaurar el texto original
       // -----------------------------------------------------------------
       if (node._translatedLang !== lang) {
         node.nodeValue = node._originalText;
@@ -403,7 +399,7 @@ async function translatePage(lang) {
       }
 
       // -----------------------------------------------------------------
-      // 3. Si es el idioma base, restaurar original y saltar
+      // 4. Si es el idioma base, restaurar original y saltar
       // -----------------------------------------------------------------
       if (lang === baseLang) {
         node.nodeValue = node._originalText;
@@ -412,49 +408,38 @@ async function translatePage(lang) {
       }
 
       // -----------------------------------------------------------------
-      // 4. Si ya está traducido a este idioma, saltar
+      // 5. Si ya está traducido a este idioma, saltar
       // -----------------------------------------------------------------
       if (node._translatedLang === lang) {
         continue;
       }
 
       // -----------------------------------------------------------------
-      // 5. Normalizar texto para cache/búsqueda
+      // 6. Normalizar texto para cache/búsqueda (usando original)
       // -----------------------------------------------------------------
-      const original = node._originalText;
-      const normalized = original.trim().replace(/\s+/g, " ");
+      const normalized = originalText.trim().replace(/\s+/g, " ");
       const cacheKey = `${lang}|${normalized}`;
 
       // -----------------------------------------------------------------
-      // 6. Verificar cache ANTES de agregar a la cola
+      // 7. Verificar cache ANTES de agregar a la cola
       // -----------------------------------------------------------------
       if (window.translationCache[cacheKey]) {
         node.nodeValue = window.translationCache[cacheKey];
         node._translatedLang = lang;
-        console.log(`✅ [CACHE] "${normalized}" → "${window.translationCache[cacheKey]}"`);
         continue;
       }
 
       // -----------------------------------------------------------------
-      // 7. Si llegamos aquí, necesita traducción
+      // 8. Si llegamos aquí, necesita traducción
       // -----------------------------------------------------------------
       nodesToTranslate.push({
         node: node,
         originalText: normalized,
-        cacheKey: cacheKey,
-        debugInfo: isHamburgerMenu && isTargetLink ? text : null
+        cacheKey: cacheKey
       });
 
       uniqueTexts.add(normalized);
-      nodeIndex++;
     }
-
-    // ============================================================
-    // MOSTAR ESTADÍSTICAS DE NODOS DEL MENÚ
-    // ============================================================
-    const menuNodes = nodesToTranslate.filter(n => n.debugInfo);
-    console.log(`🍔 Nodos del menú encontrados: ${menuNodes.length}`);
-    menuNodes.forEach(n => console.log(`   - "${n.debugInfo}"`));
 
     // ============================================================
     // SEGUNDA PASADA: Traducir textos únicos vía API
@@ -469,17 +454,6 @@ async function translatePage(lang) {
     if (textsArray.length > 0) {
       console.log("3.210 🚀 Llamando API...");
       translations = await translateBatch(textsArray, lang);
-      
-      // 🔥 DEBUG: Verificar qué traducciones llegaron para el menú
-      console.log("📋 Traducciones recibidas para textos del menú:");
-      menuNodes.forEach(n => {
-        const translation = translations[n.originalText];
-        if (translation) {
-          console.log(`   ✅ "${n.originalText}" → "${translation}"`);
-        } else {
-          console.log(`   ❌ "${n.originalText}" → SIN TRADUCCIÓN`);
-        }
-      });
     }
 
     // ============================================================
@@ -498,10 +472,6 @@ async function translatePage(lang) {
         item.node._translatedLang = lang;
         window.translationCache[item.cacheKey] = translatedText;
         appliedCount++;
-      } else if (item.debugInfo) {
-        // 🔥 Esto es CRÍTICO: si un nodo del menú no tiene traducción
-        console.error(`❌ [CRÍTICO] Nodo menú sin traducción: "${item.originalText}"`);
-        console.log(`   Parent element:`, item.node.parentElement);
       }
     }
 
