@@ -2,9 +2,10 @@
 //convertir APIs de git-api-energyner-vercel en APP junto con manifest.json
 const CACHE_NAME = 'git-hub-api-vercel';
 const urlsToCache = [
-  'index.html',
-  '../assets/css/main1.css', 
-  'energy-consump.js'
+   '/energy-consump-app/',
+  '/energy-consump-app/index.html',
+  '/energy-consump-app/energy-consump.js',
+  '/assets/css/main1.css'
 ];
 
 self.addEventListener('install', event => {
