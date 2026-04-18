@@ -1,9 +1,9 @@
 //api-app.js
-// --- 1. Registro Único del Service Worker ---
+// --- 1. Registro Único del Service Worker p/ Vercel---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         // En Vercel, lo ideal es que el SW esté en la raíz de la carpeta public
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('../energy-consump-app/sw.js')
             .then(reg => console.log('PWA: SW activo en', reg.scope))
             .catch(err => console.error('PWA: Error en SW', err));
     });

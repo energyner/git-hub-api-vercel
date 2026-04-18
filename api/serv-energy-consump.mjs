@@ -1,5 +1,5 @@
 /**
- * API: Energy Consumption (Serverless - Vercel Ready)
+ * API: Energy Consumption (Serverless - serv-energy-consump.mjs)
  */
 
 import { calculateEnergy } from './_calculations/energy-consump-function.mjs';
