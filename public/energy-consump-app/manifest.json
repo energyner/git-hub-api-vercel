@@ -1,8 +1,8 @@
 {
   "id": "/energy-consump-app/",
-  "start_url": "/energy-consump-app/index.html",
-  "scope": "/energy-consump-app/",
-  "name": "energy-consump",
+  "start_url": "./index.html", 
+  "scope": "./",
+  "name": "APP - API Hub",
   "short_name": "App - API Hub",
   "display": "standalone",
   "background_color": "#ffffff",
