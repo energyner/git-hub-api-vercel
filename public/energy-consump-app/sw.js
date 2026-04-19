@@ -57,11 +57,11 @@ const CACHE_NAME = `energy-app-${VERSION}`;
 
 // Rutas ajustadas a la estructura de Vercel
 const CORE_ASSETS = [
-  '/energy-consump-app/',
-  '/energy-consump-app/index.html',
-  '/energy-consump-app/energy-consump.js',
-  '/assets/css/main1.css',
-  '/assets/img/logo192x192.png'
+  './',                  // La carpeta actual (root de la app)
+  './index.html',        // El archivo HTML
+  './energy-consump.js', // La lógica que antes daba 404
+  '../assets/css/main1.css', // Subir un nivel para ir a assets
+  '../assets/img/logo192x192.png' // Subir un nivel para ir a assets
 ];
 
 // ============================================================
