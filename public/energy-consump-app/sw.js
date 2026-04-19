@@ -118,8 +118,12 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
 
+
   if (event.request.method !== 'GET') return;
 
+  if (event.request.url.includes('/api/')) {
+        return; // No interceptar, dejar que el navegador maneje la petición de red pura
+    }
   // 🔥 NO interceptar externos (CDN, Google, jsdelivr, etc.)
   if (!event.request.url.startsWith(self.location.origin)) {
     return;

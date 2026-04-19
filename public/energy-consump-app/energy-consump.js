@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // 🔥 3. Endpoint RELATIVO (clave en Vercel)
-            const response = await fetch('/api/serv-energy-consump', {
+            const response = await fetch(`${window.location.origin}/api/serv-energy-consump`, {
+            method: 'POST',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
