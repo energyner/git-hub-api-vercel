@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="icon" href="../assets/img/favicom.jpg" type="image/png">
-     <link rel="stylesheet" href="../assets/css/main1.css" />
-    <link rel="stylesheet" href="../assets/css/main11.css" /> 
-    <link rel="stylesheet" href="../assets/css/idioms.css">  
-    <link rel="stylesheet" href="../assets/css/energy-consump.css">
+     <link rel="icon" href="/assets/img/favicom.jpg" type="image/png">
+     <link rel="stylesheet" href="/assets/css/main1.css" />
+    <link rel="stylesheet" href="/assets/css/main11.css" /> 
+    <link rel="stylesheet" href="/assets/css/idioms.css">  
+    <link rel="stylesheet" href="/assets/css/energy-consump.css">
      <!--LINKS Y SCRIPTS PARA CONVDERTIR LA APICACION EN APPs-->
     <link rel="manifest" href="/energy-consump-app/manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,7 +15,7 @@
     <meta name="apple-mobile-web-app-title" content="Energyner">
     <link rel="apple-touch-icon" href="/assets/img/logo192x192.png">
     <meta name="theme-color" content="#ffd700">
-     
+    <base href="/energy-consump-app/"><!--Informa al navegador que todas las peticiones parten de esta carpeta-->     
     <!--FIN DE LOS LINKS Y SCRIPTS PARA CONVERTIR LA APICACION EN UNA APPs-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
@@ -34,7 +34,7 @@
  <div id="idioms-container"></div> <!--Translator API container-->
 <nav id="lms-main-menu-container"></nav> <!--Main LMS menu-->  
 <header>
-<div class="logo"><img src="../assets/img/loggo.png" alt="Energyner"></div> 
+<div class="logo"><img src="/assets/img/loggo.png" alt="Energyner"></div> 
 <h3> Electric Consumption Calculator for Single-Phase and Three-Phase Motors </h3>
 <h3>The scripts for these exercises can be found in Book 7 "Programming Step-by-Step and More Serie"</h3>
 <h3>Books 1 through 7 are available for purchase on Amazon.</h3>
@@ -232,7 +232,7 @@
         App - API Hub
     </a>
 </div>
-      <script src="../components/api-app.js" defer></script>
+      <script src="/components/api-app.js" defer></script>
      <!--FIN DE LA DIVISION HTML PARA EL LINK DOWNLOAD APP-->
 
 </div><!--Wrapper End-->
@@ -240,10 +240,10 @@
 <footer id="footer"></footer>    
 <nav id="nav2"></nav> <!--Social media menu-->
 
-    <script src="../components/menu_hamburger.js"></script>
-    <script src="../components/load_all_home.js"></script>
-    <script src="../components/translator.js"></script>     
-    <script src="./energy-consump.js"  >/* incluye paginas exteriores*/</script>  
+    <script src="/components/menu_hamburger.js"></script>
+    <script src="/components/load_all_home.js"></script>
+    <script src="/components/translator.js"></script>     
+    <script src="/energy-consump-app/energy-consump.js"  >/* incluye paginas exteriores*/</script>  
 
 
 </body>
