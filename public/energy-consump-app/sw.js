@@ -48,14 +48,13 @@
 
 // });
 // ============================================================
-// 🔥 SERVICE WORKER PRO - ENERGY CONSUMPTION APP
-// Compatible: Vercel + iOS + Android
+// 🔥 SERVICE WORKER PRO FINAL - ENERGY APP
+// Vercel + iOS + Android READY
 // ============================================================
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const CACHE_NAME = `energy-app-${VERSION}`;
 
-// 🔥 SOLO rutas DIRECTAS (sin redirects)
 const CORE_ASSETS = [
   '/energy-consump-app/index.html',
   '/energy-consump-app/energy-consump.js',
@@ -64,10 +63,11 @@ const CORE_ASSETS = [
 ];
 
 // ============================================================
-// 🟢 INSTALL (cache inicial seguro)
+// 🟢 INSTALL
 // ============================================================
 
 self.addEventListener('install', event => {
+
   console.log('🟢 SW Install:', VERSION);
 
   event.waitUntil(
@@ -85,14 +85,15 @@ self.addEventListener('install', event => {
     })
   );
 
-  self.skipWaiting(); // 🔥 activa inmediatamente
+  self.skipWaiting();
 });
 
 // ============================================================
-// 🔵 ACTIVATE (limpieza de versiones antiguas)
+// 🔵 ACTIVATE
 // ============================================================
 
 self.addEventListener('activate', event => {
+
   console.log('🔵 SW Activate:', VERSION);
 
   event.waitUntil(
@@ -108,28 +109,33 @@ self.addEventListener('activate', event => {
     )
   );
 
-  self.clients.claim(); // 🔥 toma control inmediato
+  self.clients.claim();
 });
 
 // ============================================================
-// 🟡 FETCH (estrategia inteligente)
+// 🟡 FETCH
 // ============================================================
 
 self.addEventListener('fetch', event => {
 
   if (event.request.method !== 'GET') return;
 
-  const url = new URL(event.request.url);
+  // 🔥 NO interceptar externos (CDN, Google, jsdelivr, etc.)
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
+  const accept = event.request.headers.get('accept') || '';
 
   // ========================================================
-  // 🧠 1. HTML → NETWORK FIRST (CRÍTICO PARA iOS)
+  // 🧠 HTML → NETWORK FIRST (iOS FIX)
   // ========================================================
 
-  if (event.request.headers.get('accept')?.includes('text/html')) {
+  if (accept.includes('text/html')) {
 
     event.respondWith(
 
-      fetch(event.request, { redirect: 'manual' }) // 🔥 evita redirects
+      fetch(event.request, { redirect: 'manual' })
 
         .then(response => {
 
@@ -137,48 +143,6 @@ self.addEventListener('fetch', event => {
           if (response.type === 'opaqueredirect') {
             console.warn('🚫 Redirect bloqueado:', event.request.url);
             return caches.match('/energy-consump-app/index.html');
-          }
-
-          // ✔ guardar copia fresca
-          const clone = response.clone();
-
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, clone);
-          });
-
-          return response;
-        })
-
-        .catch(() => {
-          console.log('⚠️ Offline → usando cache HTML');
-          return caches.match('/energy-consump-app/index.html');
-        })
-
-    );
-
-    return;
-  }
-
-  // ========================================================
-  // ⚡ 2. JS / CSS / IMG → CACHE FIRST
-  // ========================================================
-
-  event.respondWith(
-
-    caches.match(event.request).then(cached => {
-
-      if (cached) {
-        return cached;
-      }
-
-      return fetch(event.request, { redirect: 'manual' })
-
-        .then(response => {
-
-          // 🚫 bloquear redirects
-          if (response.type === 'opaqueredirect') {
-            console.warn('🚫 Redirect asset bloqueado:', event.request.url);
-            return response;
           }
 
           // ✔ guardar en cache
@@ -192,21 +156,68 @@ self.addEventListener('fetch', event => {
         })
 
         .catch(() => {
-          console.warn('❌ Recurso no disponible:', event.request.url);
-        });
 
-    })
+          console.log('⚠️ Offline HTML fallback');
+
+          return caches.match('/energy-consump-app/index.html') ||
+            new Response('<h1>Offline</h1>', {
+              headers: { 'Content-Type': 'text/html' }
+            });
+
+        })
+
+    );
+
+    return;
+  }
+
+  // ========================================================
+  // ⚡ ASSETS → CACHE FIRST
+  // ========================================================
+
+  event.respondWith(
+
+    caches.match(event.request)
+
+      .then(cached => {
+
+        if (cached) return cached;
+
+        return fetch(event.request)
+
+          .then(response => {
+
+            // ✔ seguridad: asegurar Response válido
+            if (!response || response.status !== 200) {
+              return response;
+            }
+
+            const clone = response.clone();
+
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, clone);
+            });
+
+            return response;
+          })
+
+          .catch(() => {
+
+            console.warn('❌ Recurso no disponible:', event.request.url);
+
+            // 🔥 SIEMPRE devolver Response (fix error crítico)
+            return new Response('', {
+              status: 404,
+              statusText: 'Not Found'
+            });
+
+          });
+
+      })
 
   );
 
 });
-
-// ============================================================
-// 🔴 FALLBACK OFFLINE (OPCIONAL)
-// ============================================================
-
-// Puedes agregar una página offline si quieres:
-// '/energy-consump-app/offline.html'
 
 // ============================================================
 // 🧪 DEBUG
